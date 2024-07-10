@@ -1,5 +1,6 @@
 import React from 'react';
+import ImageSlider from './slider';
 
 export default function MainHome() {
-  return <div>Hello</div>;
+  return <ImageSlider />;
 }
