@@ -1,3 +1,12 @@
+export const localization = {
+  //tekrari hast
+};
+export const pageLevelLocalization = {
+  //tekrari nist
+  aboutUs: {
+    timeWorks: '۷ روز هفته، ۲۴ ساعته پاسخگوی شما هستیم',
+  },
+};
 export const menoLocalization = {
   ClassificationOfGoods: 'دسته بندی کالاها',
   TheIncredibles: 'شگفت انگیز ها',

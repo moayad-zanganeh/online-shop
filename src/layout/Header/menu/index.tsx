@@ -7,21 +7,11 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-const pages = [
-  'دسته بندی کالاها',
-  '|',
-  'شگقت انگیزها',
-  'سوپرمارکت',
-  'کارت هدیه',
-  'پرفروش ترین ها',
-  'تخفیف ها و پیشنهادها',
-  '|',
-  'سوالی دارید؟',
-  'در دیجی کالا بفروشید!',
-];
+import { pages } from '@/constants/pages';
+
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-function ResponsiveAppBar() {
+function MenoAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -47,7 +37,7 @@ function ResponsiveAppBar() {
   return (
     <AppBar
       position="static"
-      sx={{ backgroundColor: 'white', boxShadow: 'none' }}
+      sx={{ backgroundColor: 'white', boxShadow: 'none', marginTop: '4%' }}
     >
       <Toolbar>
         <Box component="span">
@@ -110,4 +100,4 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
+export default MenoAppBar;

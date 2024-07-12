@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import {
   Box,
-  Container,
-  Grid,
   Typography,
   IconButton,
   Divider,
-  Card,
-  CardMedia,
   Button,
   TextField,
 } from '@mui/material';
@@ -15,43 +11,10 @@ import { Facebook, Twitter, Instagram, LinkedIn } from '@mui/icons-material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { aboutDigiKala } from '@/constants/aboutDigiKala';
-import {
-  aboutLocalization,
-  baDigiKalaLocalization,
-  BuyingGuideFromDigikalaLocalization,
-  customerServicesLocalization,
-} from '@/constants/localization';
-const abouts = [
-  aboutLocalization.PhoneSupport,
-  ' ',
-  aboutLocalization.Space,
-  ' ',
-  aboutLocalization.Phone,
-  ' ',
-  aboutLocalization.Space,
-  ' ',
-  aboutLocalization.TimeWorks,
-];
-const baDigiKala = [
-  baDigiKalaLocalization.RoomDigiK,
-  baDigiKalaLocalization.PriceDigiK,
-  baDigiKalaLocalization.JobOpportunity,
-  baDigiKalaLocalization.ViolationReportInDigik,
-  baDigiKalaLocalization.ContactDigikala,
-  baDigiKalaLocalization.AboutDigikala,
-];
-const customerServices = [
-  customerServicesLocalization.AnswersToFrequentlyAskedQuestions,
-  customerServicesLocalization.ProceduresForReturningProducts,
-  customerServicesLocalization.TermsOfUse,
-  customerServicesLocalization.Privacy,
-  customerServicesLocalization.ReportABug,
-];
-const BuyingGuideFromDigikala = [
-  BuyingGuideFromDigikalaLocalization.HowToPlaceAnOrder,
-  BuyingGuideFromDigikalaLocalization.OrderSendingProcedure,
-  BuyingGuideFromDigikalaLocalization.PaymentMethods,
-];
+import { abouts } from '@/constants/about';
+import { baDigiKala } from '@/constants/baDigiKala';
+import { customerServices } from '@/constants/customerServices';
+import { buyingGuideFromDigikala } from '@/constants/buyingGuideFromDigikala';
 
 const previewText = aboutDigiKala.text.slice(0, 300);
 
@@ -149,7 +112,7 @@ const Footer = () => {
                   <Typography variant="h5" sx={{ color: 'black' }}>
                     راهنمای خرید از دیجی کالا
                   </Typography>
-                  {BuyingGuideFromDigikala.map((bgfdigikala) => (
+                  {buyingGuideFromDigikala.map((bgfdigikala) => (
                     <Typography
                       variant="h6"
                       sx={{ color: '#81858B', my: '3%' }}

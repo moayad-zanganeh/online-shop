@@ -18,7 +18,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Button, Card, CardMedia } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import Meno from './meno';
+import MenoAppBar from './menu';
 
 const Search = styled('div')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -156,7 +156,7 @@ export default function Header() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: 'white' }}>
+      <AppBar position="fixed" sx={{ backgroundColor: 'white', top: '0' }}>
         <Toolbar>
           <Card sx={{ maxWidth: 345, boxShadow: 'none' }}>
             <CardMedia
@@ -251,7 +251,7 @@ export default function Header() {
           </Box>
         </Toolbar>
       </AppBar>
-      <Meno />
+      <MenoAppBar />
       {renderMobileMenu}
       {renderMenu}
     </Box>
