@@ -15,7 +15,7 @@ export const menoLocalization = {
   BestSellers: 'پرفروش ترین ها',
   DiscountsAndOffers: 'تخفیف ها و پیشنهادها',
   DoYouHaveAnyQuestion: 'سوالی دارید؟',
-  SellInDigiKala: 'در دیجی کالا بفروشید؟',
+  SellInUranus: 'در اورانوس بفروشید؟',
 };
 
 export const aboutLocalization = {
@@ -25,13 +25,13 @@ export const aboutLocalization = {
   Space: '|',
 };
 
-export const baDigiKalaLocalization = {
-  RoomDigiK: 'اتاق خبر دیجی‌کالا',
-  PriceDigiK: 'فروش در دیجی‌کالا',
+export const baUranusLocalization = {
+  RoomUranus: 'اتاق خبر اورانوس',
+  PriceUranus: 'فروش در اورانوس',
   JobOpportunity: 'فرصت‌های شغلی',
-  ViolationReportInDigik: 'گزارش تخلف در دیجی‌کالا',
-  ContactDigikala: 'تماس با دیجی‌کالا',
-  AboutDigikala: 'درباره دیجی‌کالا',
+  ViolationReportInUranus: 'گزارش تخلف در اورانوس',
+  ContactUranus: 'تماس با اورانوس',
+  AboutUranus: 'درباره اورانوس',
 };
 
 export const customerServicesLocalization = {
@@ -42,7 +42,7 @@ export const customerServicesLocalization = {
   ReportABug: 'گزارش باگ',
 };
 
-export const BuyingGuideFromDigikalaLocalization = {
+export const buyingGuideFromUranusLocalization = {
   HowToPlaceAnOrder: 'نحوه ثبت سفارش',
   OrderSendingProcedure: 'رویه ارسال سفارش',
   PaymentMethods: 'شیوه‌های پرداخت',

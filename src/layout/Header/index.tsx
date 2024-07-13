@@ -5,7 +5,6 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
@@ -18,7 +17,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Button, Card, CardMedia } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import MenoAppBar from './menu';
+import MenuHeader from './menu-header';
 
 const Search = styled('div')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -163,7 +162,7 @@ export default function Header() {
               component="img"
               height="140"
               image="https://www.digikala.com/statics/img/svg/logo.svg"
-              alt="digikala Image"
+              alt="Uranus-Image"
             />
           </Card>
           <Search
@@ -251,7 +250,7 @@ export default function Header() {
           </Box>
         </Toolbar>
       </AppBar>
-      <MenoAppBar />
+      <MenuHeader />
       {renderMobileMenu}
       {renderMenu}
     </Box>

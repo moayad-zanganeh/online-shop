@@ -11,7 +11,7 @@ import { pages } from '@/constants/pages';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-function MenoAppBar() {
+function MenuHeader() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -100,4 +100,4 @@ function MenoAppBar() {
     </AppBar>
   );
 }
-export default MenoAppBar;
+export default MenuHeader;

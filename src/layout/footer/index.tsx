@@ -10,13 +10,14 @@ import {
 import { Facebook, Twitter, Instagram, LinkedIn } from '@mui/icons-material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import { aboutDigiKala } from '@/constants/aboutDigiKala';
+import { aboutUranus } from '@/constants/aboutUranus';
 import { abouts } from '@/constants/about';
-import { baDigiKala } from '@/constants/baDigiKala';
-import { customerServices } from '@/constants/customerServices';
-import { buyingGuideFromDigikala } from '@/constants/buyingGuideFromDigikala';
 
-const previewText = aboutDigiKala.text.slice(0, 300);
+import { baUranus } from '@/constants/baUranus';
+import { buyingGuideFromUranus } from '@/constants/buyingGuideFromUranus';
+import { customerServices } from '@/constants/customerServices';
+
+const previewText = aboutUranus.text.slice(0, 300);
 
 const Footer = () => {
   const [showMore, setShowMore] = useState(false);
@@ -86,12 +87,12 @@ const Footer = () => {
                   <Typography variant="h5" sx={{ color: 'black' }}>
                     با دیجی کالا
                   </Typography>
-                  {baDigiKala.map((bdigi) => (
+                  {baUranus.map((bUranus) => (
                     <Typography
                       variant="h6"
                       sx={{ color: '#81858B', my: '3%' }}
                     >
-                      {bdigi}
+                      {bUranus}
                     </Typography>
                   ))}
                 </Box>
@@ -112,12 +113,12 @@ const Footer = () => {
                   <Typography variant="h5" sx={{ color: 'black' }}>
                     راهنمای خرید از دیجی کالا
                   </Typography>
-                  {buyingGuideFromDigikala.map((bgfdigikala) => (
+                  {buyingGuideFromUranus.map((bgfuranus) => (
                     <Typography
                       variant="h6"
                       sx={{ color: '#81858B', my: '3%' }}
                     >
-                      {bgfdigikala}
+                      {bgfuranus}
                     </Typography>
                   ))}
                 </Box>
@@ -216,7 +217,7 @@ const Footer = () => {
           </Typography>
           <Box sx={{ padding: '0.5%', my: '1%', width: '50%' }}>
             <Typography variant="body1">
-              {showMore ? aboutDigiKala.text : `${previewText}...`}
+              {showMore ? aboutUranus.text : `${previewText}...`}
             </Typography>
             <Button
               onClick={toggleShowMore}

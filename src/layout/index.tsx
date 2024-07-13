@@ -1,14 +1,36 @@
-import { ReactNode } from 'react';
-import Header from './Header';
+import { ReactNode, useEffect, useState } from 'react';
 import Footer from './footer';
+import Header from './header';
+import { Box, CircularProgress } from '@mui/material';
 
 export default function MainLayout({ children }: { children: ReactNode }) {
-  return (
-    <div className="flex flex-col min-h-screen mx-auto " dir="rtl">
-      <Header />
+  const [loading, setLoading] = useState(true);
 
-      <main className="container flex-grow mx-auto">{children}</main>
-      <Footer />
-    </div>
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <Box>
+      {loading ? (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="100vh"
+        >
+          <CircularProgress color="inherit" />
+        </Box>
+      ) : (
+        <Box>
+          <Header />
+
+          <main>{children}</main>
+          <Footer />
+        </Box>
+      )}
+    </Box>
   );
 }
