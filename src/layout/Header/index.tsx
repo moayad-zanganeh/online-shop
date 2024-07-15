@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
 import LoginIcon from '@mui/icons-material/Login';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -9,15 +8,15 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { Button, Card, CardMedia } from '@mui/material';
+import { Card, CardMedia, styled } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MenuHeader from './menu-header';
+import { useRouter } from 'next/router';
 
 const Search = styled('div')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -55,6 +54,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -198,6 +198,7 @@ export default function Header() {
             <Box
               component="span"
               sx={{ color: 'black', margin: '-3% 0 0 0', fontSize: '17px' }}
+              onClick={() => router.push('auth/sign-in')}
             >
               ورود
             </Box>
@@ -210,7 +211,11 @@ export default function Header() {
                 width: '1%',
               }}
             ></Box>
-            <Box component="span" sx={{ color: 'black' }}>
+            <Box
+              component="span"
+              sx={{ color: 'black' }}
+              onClick={() => router.push('/auth/sign-up')}
+            >
               ثبت نام
             </Box>
           </Box>
