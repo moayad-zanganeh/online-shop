@@ -51,7 +51,7 @@ const Footer = () => {
                 }}
               >
                 <Typography variant="h3" sx={{ color: 'red' }}>
-                  دیجی کالا
+                  اورانوس{' '}
                 </Typography>
                 <Button
                   sx={{
@@ -85,7 +85,7 @@ const Footer = () => {
               >
                 <Box>
                   <Typography variant="h5" sx={{ color: 'black' }}>
-                    با دیجی کالا
+                    با اورانوس
                   </Typography>
                   {baUranus.map((bUranus) => (
                     <Typography
@@ -111,7 +111,7 @@ const Footer = () => {
                 </Box>
                 <Box>
                   <Typography variant="h5" sx={{ color: 'black' }}>
-                    راهنمای خرید از دیجی کالا
+                    راهنمای خرید از اورانوس
                   </Typography>
                   {buyingGuideFromUranus.map((bgfuranus) => (
                     <Typography
@@ -213,7 +213,7 @@ const Footer = () => {
         />
         <Box>
           <Typography variant="h4">
-            فروشگاه اینترنتی دیجی‌کالا، بررسی، انتخاب و خرید آنلاین
+            فروشگاه اینترنتی اورانوس، بررسی، انتخاب و خرید آنلاین
           </Typography>
           <Box sx={{ padding: '0.5%', my: '1%', width: '50%' }}>
             <Typography variant="body1">

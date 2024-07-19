@@ -63,8 +63,9 @@ function MenuHeader() {
                   page !== '|'
                     ? {
                         borderBottom: 'solid 1px red',
+                        backgroundColor: 'white',
                       }
-                    : {},
+                    : { backgroundColor: 'white' },
               }}
             >
               {page}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Container,
   Box,
@@ -18,31 +18,60 @@ import GoogleIcon from '@mui/icons-material/Google';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '@/theme/theme';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { useFetchAuth } from '@/api/auth/auth.query';
 
 export default function SignIn() {
+  const [loading, setLoading] = useState(false);
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const { mutate: loginUser, isError } = useFetchAuth();
+  const router = useRouter();
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    const user = {
+      username: name,
+      password: password,
+    };
+    loginUser(user, {
+      onSuccess: (data) => console.log(data),
+      onError: (shalghm) => console.log('error', shalghm),
+    });
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Paper elevation={10} sx={{ padding: 3, borderRadius: '10px', mt: 8 }}>
-          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h4" sx={{ textAlign: 'center' }}>
             {'Sign In'}
           </Typography>
-          <Box component="form" noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 1 }}
+          >
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="name"
+              label="Name"
+              name="name"
+              value={name}
+              autoComplete="name"
               autoFocus
+              onChange={(e) => setName(e.target.value)}
             />
+            {name.length <= 0 && (
+              <Typography variant="body2" color="error" sx={{ color: 'red' }}>
+                نام کاربری وارد نشده.{' '}
+              </Typography>
+            )}
             <TextField
               variant="outlined"
               margin="normal"
@@ -51,17 +80,25 @@ export default function SignIn() {
               name="password"
               label="Password"
               type="password"
+              value={password}
               id="password"
+              onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
             />
+            {password.length < 8 && (
+              <Typography variant="body2" color="error" sx={{ color: 'red' }}>
+                رمز وارد شده کمتر از 8 رقم است.{' '}
+              </Typography>
+            )}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
               sx={{ mt: 3, mb: 2 }}
+              disabled={loading}
             >
-              Sign In
+              {loading ? 'Signing In...' : 'Sign In'}{' '}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
