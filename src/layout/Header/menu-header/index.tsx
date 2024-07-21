@@ -9,8 +9,6 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { pages } from '@/constants/pages';
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
 function MenuHeader() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -89,13 +87,7 @@ function MenuHeader() {
             }}
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
-          >
-            {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">{setting}</Typography>
-              </MenuItem>
-            ))}
-          </Menu>
+          ></Menu>
         </Box>
       </Toolbar>
     </AppBar>

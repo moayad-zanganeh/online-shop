@@ -6,12 +6,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { deleteType } from '@/types/btn';
+import { useFetchProduct } from '@/api/products/products.queris';
 
-export default function DeleteBtn(DeleteBtn: deleteType, id: any) {
+const DeleteBtn: React.FC<deleteType> = (id) => {
   const [open, setOpen] = React.useState(false);
+  const { data: deleteData, error } = useFetchProduct();
 
   const handleClickOpen = () => {
     setOpen(true);
+    const ids = deleteData.data.products;
+    console.log(ids);
   };
 
   const handleClose = () => {
@@ -42,9 +46,7 @@ export default function DeleteBtn(DeleteBtn: deleteType, id: any) {
           {"Use Google's location service?"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            ` آیا میخواهید آیتم را حذف کنید `{' '}
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-description"></DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} sx={{ color: 'blue' }}>
@@ -57,4 +59,5 @@ export default function DeleteBtn(DeleteBtn: deleteType, id: any) {
       </Dialog>
     </React.Fragment>
   );
-}
+};
+export default DeleteBtn;
