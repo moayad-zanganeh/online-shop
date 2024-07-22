@@ -3,7 +3,7 @@ import Slider from 'react-slick';
 import { Box, CardMedia } from '@mui/material';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import img1 from '../../../assets/images/0933af3c46fa1eee9cc8d13c1f9c6d84999db3d6_1706601234.jpg';
+
 const images = [
   '/images/5db486a190975797b81ab34ecd9309749d89e546_1714982678.jpg',
   '/images/0933af3c46fa1eee9cc8d13c1f9c6d84999db3d6_1706601234.jpg',

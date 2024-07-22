@@ -55,9 +55,9 @@ function BestSellers() {
             flexWrap: 'nowrap',
             width: '31%',
             backgroundColor: 'white',
-            borderBottom: 'solid 1px #9192a6',
             justifyContent: 'space-between',
             alignItems: 'center',
+            borderRadius: '10px',
             mx: '1%',
           }}
         >
@@ -71,6 +71,7 @@ function BestSellers() {
               my: '2%',
               mx: 'auto',
               width: '70%',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
             }}
           >
             <CardMedia

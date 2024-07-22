@@ -43,12 +43,12 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 6, 1, 0),
+    padding: theme.spacing(0, 4, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '20ch',
+      width: '60ch',
     },
   },
 }));
@@ -167,12 +167,11 @@ export default function Header() {
           </Card>
           <Search
             sx={{
-              paddingLeft: '15%',
               backgroundColor: '#d6d6d6',
             }}
           >
             <SearchIconWrapper>
-              <SearchIcon />
+              <SearchIcon sx={{ marginLeft: '20%' }} />
             </SearchIconWrapper>
             <StyledInputBase
               sx={{ padding: '2%' }}
