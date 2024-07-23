@@ -1,9 +1,11 @@
 import { useFetchProduct } from '@/api/products/products.queris';
-import { Box, CardMedia, Typography } from '@mui/material';
-import React from 'react';
-
+import { Box, Button, CardMedia, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 function BestSellers() {
   const { data: productAll, error, isLoading } = useFetchProduct();
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 9;
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;
@@ -26,6 +28,20 @@ function BestSellers() {
     })
   );
 
+  const totalPages = Math.ceil(dataProducts.length / productsPerPage);
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => {
+      if (prevPage < totalPages) {
+        return prevPage + 1;
+      }
+      return prevPage;
+    });
+  };
+  const handlePageFilter = () => {};
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const visibleProducts = dataProducts.slice(startIndex, endIndex);
   return (
     <Box
       sx={{
@@ -43,16 +59,27 @@ function BestSellers() {
     >
       <Typography
         variant="h4"
-        sx={{ textAlign: 'center', width: '100%', my: '1%' }}
+        sx={{ textAlign: 'center', width: '90%', my: '1%', mx: 'auto' }}
       >
         پر فروش ترین ها
       </Typography>
-      {dataProducts.map((product: any) => (
+      <Button
+        onClick={handlePageFilter}
+        sx={{
+          fontSize: '22px',
+          mr: '2%',
+          ':hover': { backgroundColor: 'white' },
+        }}
+      >
+        مشاهده همه
+      </Button>
+      {visibleProducts.map((product: any) => (
         <Box
           key={product.id}
           sx={{
             display: 'flex',
             flexWrap: 'nowrap',
+
             width: '31%',
             backgroundColor: 'white',
             justifyContent: 'space-between',
@@ -104,6 +131,21 @@ function BestSellers() {
           </Box>
         </Box>
       ))}
+      <Box
+        onClick={handleNextPage}
+        sx={{
+          position: 'absolute',
+          right: '3%',
+          backgroundColor: 'white',
+          borderRadius: '50%',
+          width: '3%',
+          height: '8%',
+        }}
+      >
+        <ArrowBackIosIcon
+          sx={{ position: 'absolute', right: '40%', top: '25%' }}
+        />
+      </Box>
     </Box>
   );
 }

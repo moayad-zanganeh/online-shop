@@ -26,7 +26,9 @@ function Brands() {
               alt={`Image ${index + 1}`}
               sx={{ borderRadius: '8px' }}
             />
-            <Typography sx={{ mt: 1 }}>{`${nameBrands[index]}`}</Typography>
+            <Typography
+              sx={{ mt: 1, fontSize: '20px', fontWeight: '900' }}
+            >{`${nameBrands[index]}`}</Typography>
           </Box>
         ))}
       </Box>

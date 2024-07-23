@@ -9,24 +9,20 @@ import {
   Grid,
   CssBaseline,
   Paper,
-  Avatar,
   IconButton,
 } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '@/theme/theme';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useFetchAuth } from '@/api/auth/auth.query';
 
 export default function SignIn() {
-  const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const { mutate: loginUser, isError } = useFetchAuth();
+  const { mutate: loginUser } = useFetchAuth();
   const router = useRouter();
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -34,9 +30,18 @@ export default function SignIn() {
       username: name,
       password: password,
     };
+
     loginUser(user, {
-      onSuccess: (data) => console.log(data),
-      onError: (shalghm) => console.log('error', shalghm),
+      onSuccess: (data: any) => {
+        console.log(data);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('token', data.token);
+        if (data.user.role === 'ADMIN') {
+          router.push('/admin-dashboard');
+        } else {
+          router.push('/');
+        }
+      },
     });
   };
 
@@ -46,7 +51,7 @@ export default function SignIn() {
         <CssBaseline />
         <Paper elevation={10} sx={{ padding: 3, borderRadius: '10px', mt: 8 }}>
           <Typography component="h1" variant="h4" sx={{ textAlign: 'center' }}>
-            {'Sign In'}
+            {'ورود'}
           </Typography>
           <Box
             component="form"
@@ -60,7 +65,7 @@ export default function SignIn() {
               required
               fullWidth
               id="name"
-              label="Name"
+              label="نام کاربری"
               name="name"
               value={name}
               autoComplete="name"
@@ -78,7 +83,7 @@ export default function SignIn() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="پسورد"
               type="password"
               value={password}
               id="password"
@@ -96,14 +101,13 @@ export default function SignIn() {
               variant="contained"
               color="primary"
               sx={{ mt: 3, mb: 2 }}
-              disabled={loading}
             >
-              {loading ? 'Signing In...' : 'Sign In'}{' '}
+              Sign In
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
               <Grid item>
                 <Link href="/signup" variant="body2">
-                  Don't have an account? Sign Up
+                  قبلا ثبت نام نکرده اید؟ ثبت نام
                 </Link>
               </Grid>
             </Grid>
