@@ -34,39 +34,40 @@ export default function HeaderAadminDashboard() {
           >
             <MenuIcon />
           </IconButton>
-          <Menu
-            id="fade-menu"
-            MenuListProps={{
-              'aria-labelledby': 'fade-button',
-            }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            TransitionComponent={Fade}
-            sx={{ mx: -4 }}
-          >
-            <MenuItem sx={{ fontSize: '20px' }} onClick={handleClose}>
-              <Link href={'/'}>خانه</Link>
-            </MenuItem>
-            <MenuItem sx={{ fontSize: '20px' }} onClick={handleClose}>
-              <Link href={'/'}>خروج</Link>
-            </MenuItem>
-            <MenuItem sx={{ fontSize: '20px' }} onClick={handleClose}>
-              <Link href={'/admin-dashboard/product-inventory'}>
-                موجودی و قیمت
-              </Link>
-            </MenuItem>
-            <MenuItem sx={{ fontSize: '20px' }} onClick={handleClose}>
-              <Link href={'#'}>وضعیت تحویل سفارش</Link>
-            </MenuItem>
-          </Menu>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, fontSize: '23px' }}
-          >
-            داشبورد
-          </Typography>
+          <Box sx={{ mx: -2 }}>
+            <Menu
+              id="fade-menu"
+              MenuListProps={{
+                'aria-labelledby': 'fade-button',
+              }}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              TransitionComponent={Fade}
+            >
+              <MenuItem sx={{ fontSize: '20px' }} onClick={handleClose}>
+                <Link href={'/'}>خانه</Link>
+              </MenuItem>
+              <MenuItem sx={{ fontSize: '20px' }} onClick={handleClose}>
+                <Link href={'/'}>خروج</Link>
+              </MenuItem>
+              <MenuItem sx={{ fontSize: '20px' }} onClick={handleClose}>
+                <Link href={'/admin-dashboard/product-inventory'}>
+                  موجودی و قیمت
+                </Link>
+              </MenuItem>
+              <MenuItem sx={{ fontSize: '20px' }} onClick={handleClose}>
+                <Link href={'#'}>وضعیت تحویل سفارش</Link>
+              </MenuItem>
+            </Menu>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, fontSize: '23px' }}
+            >
+              داشبورد
+            </Typography>
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>

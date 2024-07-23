@@ -1,5 +1,5 @@
-import ImageSlider from './slider';
+import MainBar from './main-bar';
 
 export default function MainHome() {
-  return <ImageSlider />;
+  return <MainBar />;
 }

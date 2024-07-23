@@ -148,7 +148,6 @@ const Footer = () => {
                       href="https://twitter.com"
                       sx={{
                         color: '#81858B',
-                        '&:hover': { color: '#1DA1F2' },
                       }}
                     >
                       <Twitter sx={{ fontSize: '45px' }} />
@@ -157,7 +156,6 @@ const Footer = () => {
                       href="https://instagram.com"
                       sx={{
                         color: '#81858B',
-                        '&:hover': { color: '#E1306C' },
                       }}
                     >
                       <Instagram sx={{ fontSize: '45px' }} />
@@ -166,7 +164,6 @@ const Footer = () => {
                       href="https://linkedin.com"
                       sx={{
                         color: '#81858B',
-                        '&:hover': { color: '#0A66C2' },
                       }}
                     >
                       <LinkedIn sx={{ fontSize: '45px' }} />
