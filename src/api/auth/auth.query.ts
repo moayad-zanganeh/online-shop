@@ -2,11 +2,18 @@
 //get => useQuery
 
 import { useMutation } from '@tanstack/react-query';
-import { fetchAuth } from './auth.api';
+import { fetchLogin, fetchSignUP } from './auth.api';
 
-export const useFetchAuth = () => {
+export const useFetchLogin = () => {
   return useMutation({
-    mutationKey: ['auth'],
-    mutationFn: fetchAuth,
+    mutationKey: ['login'],
+    mutationFn: fetchLogin,
+  });
+};
+
+export const useFetchSignUp = () => {
+  return useMutation({
+    mutationKey: ['sign-up'],
+    mutationFn: fetchSignUP,
   });
 };

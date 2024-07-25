@@ -10,6 +10,8 @@ import {
   CssBaseline,
   Paper,
   IconButton,
+  Card,
+  CardMedia,
 } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -17,13 +19,23 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '@/theme/theme';
 import { useRouter } from 'next/router';
-import { useFetchAuth } from '@/api/auth/auth.query';
+import { useFetchLogin } from '@/api/auth/auth.query';
+import { setCookie } from 'cookies-next';
+import { userType } from '@/types/user';
 
 export default function SignIn() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const { mutate: loginUser } = useFetchAuth();
+  const { mutate: loginUser } = useFetchLogin();
   const router = useRouter();
+
+  const handleLoginSuccess = (user: userType) => {
+    console.log(user);
+    setCookie('access', user.id);
+    setCookie('role', user.role);
+    setCookie('name', user.firstname);
+  };
+
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const user = {
@@ -32,11 +44,11 @@ export default function SignIn() {
     };
 
     loginUser(user, {
-      onSuccess: (data: any) => {
+      onSuccess: (data) => {
         console.log(data);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        localStorage.setItem('token', data.token);
-        if (data.user.role === 'ADMIN') {
+        setCookie('user', data.user);
+        handleLoginSuccess(data.data.user);
+        if (data.data.user.role == 'ADMIN') {
           router.push('/admin-dashboard');
         } else {
           router.push('/');
@@ -50,7 +62,17 @@ export default function SignIn() {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Paper elevation={10} sx={{ padding: 3, borderRadius: '10px', mt: 8 }}>
-          <Typography component="h1" variant="h4" sx={{ textAlign: 'center' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+            <Card sx={{ maxWidth: 150, boxShadow: 'none' }}>
+              <CardMedia
+                component="img"
+                height="140"
+                image="https://www.digikala.com/statics/img/svg/logo.svg"
+                alt="Uranus-Image"
+              />
+            </Card>
+          </Box>
+          <Typography component="h1" variant="h4" sx={{ textAlign: 'left' }}>
             {'ورود'}
           </Typography>
           <Box
@@ -72,11 +94,6 @@ export default function SignIn() {
               autoFocus
               onChange={(e) => setName(e.target.value)}
             />
-            {name.length <= 0 && (
-              <Typography variant="body2" color="error" sx={{ color: 'red' }}>
-                نام کاربری وارد نشده.{' '}
-              </Typography>
-            )}
             <TextField
               variant="outlined"
               margin="normal"
@@ -90,24 +107,33 @@ export default function SignIn() {
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
             />
-            {password.length < 8 && (
-              <Typography variant="body2" color="error" sx={{ color: 'red' }}>
-                رمز وارد شده کمتر از 8 رقم است.{' '}
-              </Typography>
-            )}
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              color="primary"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{
+                mt: 3,
+                mb: 2,
+                backgroundColor: '#f01436',
+                color: 'white',
+                ':hover': { backgroundColor: '#f01436', color: 'white' },
+              }}
             >
-              Sign In
+              ورود
             </Button>
             <Grid container justifyContent="center">
               <Grid item>
-                <Link href="/signup" variant="body2">
-                  قبلا ثبت نام نکرده اید؟ ثبت نام
+                <Link
+                  href="/signup"
+                  variant="body2"
+                  sx={{
+                    color: 'black',
+                    textDecoration: 'none',
+                    fontSize: '16px',
+                    fontWeight: '500',
+                  }}
+                >
+                  قبلا ثبت نام نکرده‌اید؟ ثبت نام
                 </Link>
               </Grid>
             </Grid>

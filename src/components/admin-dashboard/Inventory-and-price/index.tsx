@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useFetchProduct } from '@/api/products/products.queris';
-import HeaderAadminDashboard from '../header-admin-dashboard';
+import HeaderAadminDashboard from '../../../layout/admin-layout/header-admin-dashboard';
 
 const InventoryAndPrice: React.FC = () => {
   const { data: inventory, error, isLoading } = useFetchProduct();
@@ -62,7 +62,6 @@ const InventoryAndPrice: React.FC = () => {
 
   return (
     <div style={{ height: 400, width: '100%' }}>
-      <HeaderAadminDashboard />
       <DataGrid
         rows={rows}
         columns={columns}

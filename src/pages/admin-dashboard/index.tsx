@@ -1,8 +1,11 @@
 import AadminDashboard from '@/components/admin-dashboard';
-import React from 'react';
+import AdminLayout from '@/layout/admin-layout';
+import { ReactElement } from 'react';
 
-function AadminDashboardPage() {
+export default function AdminDashboardPage() {
   return <AadminDashboard />;
 }
 
-export default AadminDashboardPage;
+AdminDashboardPage.getLayout = function getLayout(page: ReactElement) {
+  return <AdminLayout>{page}</AdminLayout>;
+};

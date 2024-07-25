@@ -47,3 +47,14 @@ export const buyingGuideFromUranusLocalization = {
   OrderSendingProcedure: 'رویه ارسال سفارش',
   PaymentMethods: 'شیوه‌های پرداخت',
 };
+
+export const authLocalization = {
+  username: 'نام کاربری',
+  password: 'پسورد',
+  fiestname: 'نام',
+  lastname: 'نام خانوادگی',
+  address: 'آدرس',
+  phonenumber: 'شماره تلفن',
+  signin: 'ورود',
+  signup: 'ثبت نام',
+};

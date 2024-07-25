@@ -6,11 +6,11 @@ export async function middleware(request: NextRequest) {
       request.cookies.get('access Token') &&
       request.cookies.get('role')?.value === 'ADMIN'
     ) {
-      return NextResponse.redirect(new URL('/admin', request.url));
+      return NextResponse.redirect(new URL('/admin-dashboard', request.url));
     }
   }
   if (
-    request.nextUrl.pathname.startsWith('/admin') &&
+    request.nextUrl.pathname.startsWith('/admin-dashboard') &&
     !request.nextUrl.pathname.startsWith('/auth')
   ) {
     if (!request.cookies.get('accessToken')) {
