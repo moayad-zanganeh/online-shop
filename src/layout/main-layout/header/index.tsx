@@ -17,6 +17,7 @@ import { Card, CardMedia, styled } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MenuHeader from './menu-header';
 import { useRouter } from 'next/router';
+import { authLocalization } from '@/constants/localization';
 
 const Search = styled('div')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -199,7 +200,7 @@ export default function Header() {
               sx={{ color: 'black', margin: '-3% 0 0 0', fontSize: '17px' }}
               onClick={() => router.push('auth/sign-in')}
             >
-              ورود
+              {authLocalization.signin}
             </Box>
             <Box
               component="span"
@@ -215,7 +216,7 @@ export default function Header() {
               sx={{ color: 'black' }}
               onClick={() => router.push('/auth/sign-up')}
             >
-              ثبت نام
+              {authLocalization.signup}{' '}
             </Box>
           </Box>
           <Box

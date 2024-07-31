@@ -1,8 +1,11 @@
 import InventoryAndPrice from '@/components/admin-dashboard/Inventory-and-price';
 import React from 'react';
+import AdminLayout from '@/layout/admin-layout';
+import { ReactElement } from 'react';
 
-function InventoryAndPricePage() {
+export default function InventoryAndPricePage() {
   return <InventoryAndPrice />;
 }
-
-export default InventoryAndPricePage;
+InventoryAndPricePage.getLayout = function getLayout(page: ReactElement) {
+  return <AdminLayout>{page}</AdminLayout>;
+};

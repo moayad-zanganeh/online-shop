@@ -21,7 +21,7 @@ export default function HeaderAadminDashboard() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: '#ee384e' }}>
         <Toolbar>
           <IconButton
             size="large"

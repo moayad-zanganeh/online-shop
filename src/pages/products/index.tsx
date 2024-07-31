@@ -1,4 +1,5 @@
-import MainLayout from '@/layout';
+import Products from '@/components/products';
+import MainLayout from '@/layout/main-layout';
 import { ReactElement } from 'react';
 
 export default function ProductsPage() {

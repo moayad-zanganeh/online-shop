@@ -1,7 +1,7 @@
 import React from 'react';
-import HeaderAadminDashboard from '../../layout/admin-layout/header-admin-dashboard';
 import { Box } from '@mui/material';
 import Table from './table';
+import InventoryAndPrice from './Inventory-and-price';
 
 function AadminDashboard() {
   return (

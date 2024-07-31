@@ -2,14 +2,17 @@ import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
 import { pages } from '@/constants/pages';
+import { Typography } from '@mui/material';
+import { menoLocalization } from '@/constants/localization';
+import ModalCategories from './modal-categories';
 
 function MenuHeader() {
+  const [open, setOpen] = React.useState(false);
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -32,24 +35,50 @@ function MenuHeader() {
     setAnchorElUser(null);
   };
 
+  const handleMouseEnter = () => {
+    setOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    setOpen(false);
+  };
+
   return (
     <AppBar
       position="static"
       sx={{ backgroundColor: 'white', boxShadow: 'none', marginTop: '4%' }}
     >
       <Toolbar>
-        <Box component="span">
-          <MenuIcon sx={{ color: '#b5b5b5' }} />
-        </Box>
         <Box
           sx={{
             ':hover': { background: 'white' },
             flexGrow: 1,
+            gap: '1%',
             display: { xs: 'none', md: 'flex' },
+            position: 'relative',
           }}
+          onMouseLeave={handleMouseLeave}
         >
+          <Button
+            onMouseEnter={handleMouseEnter}
+            sx={{
+              my: 2,
+              color: '#b5b5b5',
+              display: 'flex',
+              alignItems: 'center',
+              fontSize: '18px',
+              cursor: 'pointer',
+              '&:hover': {
+                borderBottom: 'solid 1px red',
+                backgroundColor: 'white',
+              },
+            }}
+          >
+            <MenuIcon sx={{ color: '#b5b5b5', mr: '10px' }} />
+            <Typography>{menoLocalization.ClassificationOfGoods}</Typography>
+          </Button>
           {pages.map((page) => (
-            <Button
+            <Typography
               key={page}
               onClick={handleCloseNavMenu}
               sx={{
@@ -57,17 +86,18 @@ function MenuHeader() {
                 color: '#b5b5b5',
                 display: 'block',
                 fontSize: '18px',
+                cursor: 'pointer',
                 '&:hover':
                   page !== '|'
                     ? {
                         borderBottom: 'solid 1px red',
                         backgroundColor: 'white',
                       }
-                    : { backgroundColor: 'white' },
+                    : { backgroundColor: 'white', cursor: 'auto' },
               }}
             >
               {page}
-            </Button>
+            </Typography>
           ))}
         </Box>
 
@@ -90,7 +120,13 @@ function MenuHeader() {
           ></Menu>
         </Box>
       </Toolbar>
+      <ModalCategories
+        open={open}
+        handleMouseEnter={handleMouseEnter}
+        handleMouseLeave={handleMouseLeave}
+      />
     </AppBar>
   );
 }
+
 export default MenuHeader;

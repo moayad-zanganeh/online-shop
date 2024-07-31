@@ -1,5 +1,5 @@
 import SingleCard from '@/components/single-card';
-import MainLayout from '@/layout';
+import MainLayout from '@/layout/main-layout';
 import { ReactElement } from 'react';
 
 export default function SingleCardPage() {

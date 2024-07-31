@@ -12,6 +12,7 @@ export const useFetchLogin = () => {
 };
 
 export const useFetchSignUp = () => {
+  // console.log(bodyRequest);
   return useMutation({
     mutationKey: ['sign-up'],
     mutationFn: fetchSignUP,

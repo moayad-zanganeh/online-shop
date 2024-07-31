@@ -54,7 +54,32 @@ export const authLocalization = {
   fiestname: 'نام',
   lastname: 'نام خانوادگی',
   address: 'آدرس',
-  phonenumber: 'شماره تلفن',
+  phoneNumber: 'شماره تلفن',
   signin: 'ورود',
   signup: 'ثبت نام',
+  notRegister: 'قبلا ثبت نام نکرده اید؟',
+  alreadyRegistered: 'قبلا ثبت نام کرده اید؟',
+};
+
+export const deleteLocalization = {
+  wantTheItem: 'آیا میخواهید آیتم',
+  delete: 'حذف کنید؟',
+};
+export const editLocalization = {
+  edit: 'ویرایش کنید؟',
+};
+
+export const modalLocalization = {
+  mobile: 'موبایل',
+};
+export const brandsMobile = {
+  apple: 'آیفون',
+  sumsung: 'سامسونگ',
+  honor: 'آنر',
+  xiaomi: 'شیائومی',
+  differentbrands: 'برنده های مختلف گوشی',
+  smartphone: 'گوشی',
+};
+export const messageLocalization = {
+  successful: 'محصول با موفقیت به سبد خرید اضافه شد.',
 };

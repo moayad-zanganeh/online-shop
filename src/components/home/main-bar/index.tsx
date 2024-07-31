@@ -6,11 +6,11 @@ import Brands from './brands';
 
 function MainBar() {
   return (
-    <Box>
+    <>
       <ImageSlider />
       <BestSellers />
       <Brands />
-    </Box>
+    </>
   );
 }
 

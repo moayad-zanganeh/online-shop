@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
+import { Box, CircularProgress } from '@mui/material';
 import Footer from './footer';
 import Header from './header';
-import { Box, CircularProgress } from '@mui/material';
 
 export default function MainLayout({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -26,8 +26,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
       ) : (
         <Box>
           <Header />
-
-          <main>{children}</main>
+          {children}
           <Footer />
         </Box>
       )}

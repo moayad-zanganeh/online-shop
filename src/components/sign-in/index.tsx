@@ -22,6 +22,7 @@ import { useRouter } from 'next/router';
 import { useFetchLogin } from '@/api/auth/auth.query';
 import { setCookie } from 'cookies-next';
 import { userType } from '@/types/user';
+import { authLocalization } from '@/constants/localization';
 
 export default function SignIn() {
   const [name, setName] = useState('');
@@ -87,7 +88,7 @@ export default function SignIn() {
               required
               fullWidth
               id="name"
-              label="نام کاربری"
+              label={authLocalization.username}
               name="name"
               value={name}
               autoComplete="name"
@@ -100,7 +101,7 @@ export default function SignIn() {
               required
               fullWidth
               name="password"
-              label="پسورد"
+              label={authLocalization.password}
               type="password"
               value={password}
               id="password"
@@ -133,7 +134,7 @@ export default function SignIn() {
                     fontWeight: '500',
                   }}
                 >
-                  قبلا ثبت نام نکرده‌اید؟ ثبت نام
+                  {authLocalization.notRegister} {authLocalization.signup}
                 </Link>
               </Grid>
             </Grid>

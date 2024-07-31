@@ -20,6 +20,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from '@/theme/theme';
 import { useFetchSignUp } from '@/api/auth/auth.query';
 import { useRouter } from 'next/router';
+import { authLocalization } from '@/constants/localization';
 
 export default function SignUp() {
   const { mutate: signUp } = useFetchSignUp();
@@ -32,6 +33,7 @@ export default function SignUp() {
     address: '',
     password: '',
   });
+  console.log(userAbout);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserAbout((prevUser) => ({ ...prevUser, [name]: value }));
@@ -43,7 +45,7 @@ export default function SignUp() {
       onSuccess: (data) => {
         console.log(data);
         // Handle successful sign up, e.g., redirect to login page
-        router.push('auth/sign-in');
+        router.push('/auth/sign-in');
       },
       onError: (error) => {
         console.error('Error: ', error);
@@ -70,7 +72,7 @@ export default function SignUp() {
             </Card>
           </Box>
           <Typography component="h1" variant="h4" sx={{ textAlign: 'left' }}>
-            {'ثبت نام'}
+            {authLocalization.signup}
           </Typography>
           <Box
             component="form"
@@ -88,7 +90,7 @@ export default function SignUp() {
               margin="normal"
               required
               id="firstname"
-              label="نام"
+              label={authLocalization.fiestname}
               name="firstname"
               value={userAbout.firstname}
               autoComplete="firstname"
@@ -102,7 +104,7 @@ export default function SignUp() {
               margin="normal"
               required
               id="lastname"
-              label="نام خانوادگی"
+              label={authLocalization.lastname}
               name="lastname"
               value={userAbout.lastname}
               autoComplete="lastname"
@@ -114,7 +116,7 @@ export default function SignUp() {
               margin="normal"
               required
               id="username"
-              label="نام کاربری"
+              label={authLocalization.username}
               name="username"
               value={userAbout.username}
               autoComplete="username"
@@ -126,7 +128,7 @@ export default function SignUp() {
               margin="normal"
               required
               name="password"
-              label="پسورد"
+              label={authLocalization.password}
               type="password"
               id="password"
               value={userAbout.password}
@@ -139,7 +141,7 @@ export default function SignUp() {
               margin="normal"
               required
               id="phoneNumber"
-              label="تلفن"
+              label={authLocalization.phoneNumber}
               name="phoneNumber"
               value={userAbout.phoneNumber}
               autoComplete="phoneNumber"
@@ -151,7 +153,7 @@ export default function SignUp() {
               margin="normal"
               required
               id="address"
-              label="آدرس"
+              label={authLocalization.address}
               name="address"
               value={userAbout.address}
               autoComplete="address"
@@ -170,7 +172,7 @@ export default function SignUp() {
                 ':hover': { backgroundColor: '#f01436', color: 'white' },
               }}
             >
-              ثبت نام
+              {authLocalization.signup}
             </Button>
             <Grid container justifyContent="center">
               <Grid item>
@@ -184,7 +186,7 @@ export default function SignUp() {
                     color: 'black',
                   }}
                 >
-                  قبلا ثبت نام کرده‌اید؟ ورود
+                  {authLocalization.alreadyRegistered} {authLocalization.signin}
                 </Link>
               </Grid>
             </Grid>

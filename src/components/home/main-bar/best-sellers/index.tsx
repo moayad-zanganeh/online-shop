@@ -1,12 +1,13 @@
-import { useFetchProduct } from '@/api/products/products.queris';
+import { useFetchProduct } from '@/api/products/products.querys';
 import { Box, Button, CardMedia, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useRouter } from 'next/router';
 function BestSellers() {
   const { data: productAll, error, isLoading } = useFetchProduct();
   const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
   const productsPerPage = 9;
-
   if (isLoading) {
     return <Typography>Loading...</Typography>;
   }
@@ -38,10 +39,13 @@ function BestSellers() {
       return prevPage;
     });
   };
-  const handlePageFilter = () => {};
+  const handlePageProducts = () => {
+    router.push('/products');
+  };
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
   const visibleProducts = dataProducts.slice(startIndex, endIndex);
+
   return (
     <Box
       sx={{
@@ -64,7 +68,7 @@ function BestSellers() {
         پر فروش ترین ها
       </Typography>
       <Button
-        onClick={handlePageFilter}
+        onClick={handlePageProducts}
         sx={{
           fontSize: '22px',
           mr: '2%',

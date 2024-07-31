@@ -1,79 +1,76 @@
-import * as React from 'react';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { useFetchProduct } from '@/api/products/products.queris';
-import HeaderAadminDashboard from '../../../layout/admin-layout/header-admin-dashboard';
+import React, { useState, useEffect } from 'react';
+import { DataGrid } from '@mui/x-data-grid';
+import { useMutation } from '@tanstack/react-query';
+import {
+  useFetchProduct,
+  useEditProduct,
+} from '@/api/products/products.querys';
+import { columns, createRows } from '@/constants/mock-data/inventory';
+import { Box, Button } from '@mui/material';
+import { Loading } from '@/components/shared/loading';
+
+const PAGE_SIZE_OPTIONS = [5, 10];
 
 const InventoryAndPrice: React.FC = () => {
-  const { data: inventory, error, isLoading } = useFetchProduct();
+  const { data: inventory, isLoading } = useFetchProduct();
+  const [rowsData, setRowsData] = useState<any[]>([]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  const { mutate: editProduct } = useEditProduct();
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+  useEffect(() => {
+    if (inventory) {
+      setRowsData(createRows(inventory));
+    }
+  }, [inventory]);
 
-  if (!inventory || !Array.isArray(inventory.data.products)) {
-    console.error('Invalid inventory data:', inventory);
-    return <div>No data available</div>;
-  }
+  const changeInventory = (id: string, value: string) => {
+    setRowsData((prevRows) =>
+      prevRows.map((row) =>
+        row.id === id ? { ...row, inventory: value } : row
+      )
+    );
+  };
 
-  const columns: GridColDef[] = [
-    {
-      field: 'name',
-      headerName: 'اسم محصول',
-      width: 100,
-      sortable: true,
-      headerAlign: 'center',
-      renderCell: (params) => (
-        <div style={{ textAlign: 'center', width: '100%' }}>{params.value}</div>
-      ),
-    },
-    {
-      field: 'inventory',
-      headerName: 'موجودی',
-      width: 250,
-      sortable: true,
-      headerAlign: 'center',
-      renderCell: (params) => (
-        <div style={{ textAlign: 'center', width: '100%' }}>{params.value}</div>
-      ),
-    },
-    {
-      field: 'price',
-      headerName: 'قیمت',
-      type: 'number',
-      width: 90,
-      headerAlign: 'center',
-      sortable: true,
-      renderCell: (params) => (
-        <div style={{ textAlign: 'center', width: '100%' }}>{params.value}</div>
-      ),
-    },
-  ];
+  const changePrice = (id: string, value: string) => {
+    setRowsData((prevRows) =>
+      prevRows.map((row) => (row.id === id ? { ...row, price: value } : row))
+    );
+  };
 
-  const rows = inventory.data.products.map((product: any, index: number) => ({
-    id: index,
-    name: product.name,
-    inventory: product.quantity,
-    price: product.price,
-  }));
+  const handleSaveChanges = () => {
+    rowsData.forEach((row) => {
+      const updatedProduct = {
+        inventory: row.inventory,
+        price: row.price,
+      };
+
+      // Ensure the ID is a string and properly formatted
+      editProduct({
+        id: row.id.toString(), // Ensure ID is a string
+        ...updatedProduct,
+      });
+    });
+  };
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-      />
-    </div>
+    <Box sx={{ height: 400, width: '100%' }}>
+      <Button onClick={handleSaveChanges}>ثبت تغییرات</Button>
+      {!isLoading ? (
+        <DataGrid
+          rows={rowsData}
+          columns={columns({ changeInventory, changePrice })}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={PAGE_SIZE_OPTIONS}
+          checkboxSelection
+        />
+      ) : (
+        <Loading />
+      )}
+    </Box>
   );
 };
 
