@@ -32,18 +32,18 @@ export default function Cards() {
   }
 
   const dataProducts = productAll.data.products.map((product: any) => ({
-    id: product.id,
+    id: product._id,
     name: product.name,
     images: product.images,
     price: product.price,
   }));
 
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = dataProducts.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
+  // const indexOfLastProduct = currentPage * productsPerPage;
+  // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  // const currentProducts = dataProducts.slice(
+  //   indexOfFirstProduct,
+  //   indexOfLastProduct
+  // );
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -54,7 +54,7 @@ export default function Cards() {
 
   const handleCardClick = (id: string) => {
     if (id) {
-      router.push(`/product/${id}`);
+      router.push(`/products/${id}`);
     } else {
       console.error('Product ID is undefined');
     }
@@ -63,7 +63,7 @@ export default function Cards() {
   return (
     <Box>
       <Grid container spacing={2}>
-        {currentProducts.map((product) => (
+        {dataProducts.map((product) => (
           <Grid item key={product.id} xs={12} sm={6} md={4}>
             <Card
               sx={{

@@ -1,9 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
+  addProduct,
   deleteProduct,
   editProduct,
   fetchProduct,
   fetchProductById,
+  fetchSingleProduct,
 } from './products.api';
 
 export const useFetchProduct = () => {
@@ -43,13 +45,28 @@ export const useEditProduct = () => {
 
   return useMutation({
     mutationKey: ['edit-product'],
-    mutationFn: editProduct,
+    mutationFn: ({ id, productData }: { id: string; productData: any }) =>
+      editProduct(id, productData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['all-products'] });
     },
     onError: (error) => {
       console.error('Error editing product:', error);
-      // Optionally show an error message to the user
     },
   });
+};
+
+export const useAddProduct = () => {
+  return useMutation({
+    mutationKey: ['add-products'],
+    mutationFn: addProduct,
+  });
+};
+
+export const useFetchSingleProduct = (productId: string) => {
+  const res = useQuery({
+    queryFn: () => fetchSingleProduct(productId),
+    queryKey: ['productId', productId],
+  });
+  return res;
 };

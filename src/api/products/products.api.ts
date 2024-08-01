@@ -18,11 +18,22 @@ export const deleteProduct = async (id: string) => {
   return response.data;
 };
 
-export const editProduct = async (productData: any) => {
-  const { id, ...rest } = productData;
+export const editProduct = async (id: string, productData: any) => {
   const res = await axios.patch(
     `http://localhost:8000/api/products/${id}`,
-    rest
+    productData
   );
   return res.data;
+};
+
+export const addProduct = async () => {
+  const res = await axios.post('http://localhost:8000/api/products');
+  return res;
+};
+
+export const fetchSingleProduct = async (productId: string) => {
+  const { data } = await axios.get(
+    `http://localhost:8000/api/products/${productId}`
+  );
+  return data;
 };

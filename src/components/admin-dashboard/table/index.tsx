@@ -14,10 +14,12 @@ import {
   TablePagination,
   CardMedia,
   TextField,
+  Input,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {
+  useAddProduct,
   useDeleteProduct,
   useEditProduct,
   useFetchProduct,
@@ -40,14 +42,18 @@ function SimpleTable() {
   const [data, setData] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState('');
+  const [editId, setEditId] = useState('');
+  const [productToEdit, setProductToEdit] = useState<any>(null);
+  const [addProduct, setAddProduct] = useState<any>(null);
+
   const [editProductData, setEditProductData] = useState<any>(null);
   const [addProductData, setAddProductData] = useState<any>(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const { data: productData, isLoading, refetch } = useFetchProduct();
+  const { data: productData, isLoading } = useFetchProduct();
   const { mutate: deleteProduct } = useDeleteProduct();
   const { mutate: editProduct } = useEditProduct();
-
+  const { mutate: productAdd } = useAddProduct();
   useEffect(() => {
     if (productData) {
       const newRows = generateRows(productData);
@@ -72,85 +78,104 @@ function SimpleTable() {
   };
 
   const handleEdit = (product: any) => {
-    setEditProductData(product);
     setOpen(true);
+    setProductToEdit(product);
+    console.log('hi');
+    setEditId(product._id);
   };
 
-  const handleSaveChanges = async () => {
-    if (editProductData) {
-      try {
-        await editProduct(editProductData);
-        handleClose();
-
-        await refetch();
-      } catch (error) {
-        console.error('Failed to update product:', error);
-        alert(
-          'مشکلی در به‌روزرسانی محصول رخ داده است. لطفاً دوباره تلاش کنید.'
-        );
-      }
+  const handleSaveChanges = () => {
+    if (addProductData) {
+      console.log(addProductData);
+      const FD = new FormData();
+      Object.entries(addProductData).forEach(([key, value]) => {
+        FD.append(key, value as string);
+      });
+      editProduct({ id: editId, productData: FD });
     }
   };
   const addProducts = () => {
-    return (
-      addProductData && (
-        <Box sx={{ mt: 2, display: 'block' }}>
-          <TextField
-            label="نام محصول"
-            variant="outlined"
-            fullWidth
-            onChange={(e) =>
-              setAddProductData({
-                ...addProductData,
-                name: e.target.value,
-              })
-            }
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            label="قیمت"
-            variant="outlined"
-            fullWidth
-            type="type"
-            onChange={(e) =>
-              setAddProductData({
-                ...addProductData,
-                name: e.target.value,
-              })
-            }
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            label="تصویر"
-            variant="outlined"
-            fullWidth
-            onChange={(e) =>
-              setAddProductData({
-                ...addProductData,
-                name: e.target.value,
-              })
-            }
-            sx={{ mb: 2 }}
-          />
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleSaveChanges}
-            >
-              ثبت محصول{' '}
-            </Button>
-            <Button variant="outlined" onClick={handleClose}>
-              لغو
-            </Button>
-          </Box>
-        </Box>
-      )
-    );
+    if (editProductData) {
+      console.log(editProductData);
+      const FD = new FormData();
+      Object.entries(editProductData).forEach(([key, value]) => {
+        FD.append(key, value as string);
+      });
+    }
   };
   return (
     <Box>
-      <Button onClick={addProducts}>افزودن محصول</Button>
+      <Button>ثبت محصول</Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-title" variant="h6" component="h2">
+            افزودن محصول
+          </Typography>
+          {productToEdit && (
+            <Box sx={{ mt: 2 }}>
+              <TextField
+                label="نام محصول"
+                variant="outlined"
+                fullWidth
+                defaultValue={productToEdit.name}
+                onChange={(e) =>
+                  setAddProductData({
+                    ...addProductData,
+                    name: e.target.value,
+                  })
+                }
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="قیمت"
+                variant="outlined"
+                fullWidth
+                type="text"
+                defaultValue={productToEdit.price}
+                onChange={(e) =>
+                  setAddProductData({
+                    ...addProductData,
+                    price: e.target.value,
+                  })
+                }
+                sx={{ mb: 2 }}
+              />
+              <Input //input mui
+                fullWidth
+                type="file"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    setAddProductData({
+                      ...addProductData,
+                      images: file, // assuming only one image
+                    });
+                  }
+                }}
+                sx={{ mb: 2 }}
+              />
+              //img yadet nare src ham product.image o ina bashe
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={addProducts}
+                >
+                  ثبت
+                </Button>
+                <Button variant="outlined" onClick={handleClose}>
+                  لغو
+                </Button>
+              </Box>
+            </Box>
+          )}
+        </Box>
+      </Modal>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -248,7 +273,7 @@ function SimpleTable() {
       </Modal>
       {/* Edit Product Modal */}
       <Modal
-        open={Boolean(editProductData)}
+        open={open}
         onClose={handleClose}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
@@ -257,13 +282,13 @@ function SimpleTable() {
           <Typography id="modal-title" variant="h6" component="h2">
             ویرایش محصول
           </Typography>
-          {editProductData && (
+          {productToEdit && (
             <Box sx={{ mt: 2 }}>
               <TextField
                 label="نام محصول"
                 variant="outlined"
                 fullWidth
-                value={editProductData.name}
+                defaultValue={productToEdit.name}
                 onChange={(e) =>
                   setEditProductData({
                     ...editProductData,
@@ -276,8 +301,8 @@ function SimpleTable() {
                 label="قیمت"
                 variant="outlined"
                 fullWidth
-                type="number"
-                value={editProductData.price}
+                type="text"
+                defaultValue={productToEdit.price}
                 onChange={(e) =>
                   setEditProductData({
                     ...editProductData,
@@ -286,19 +311,21 @@ function SimpleTable() {
                 }
                 sx={{ mb: 2 }}
               />
-              <TextField
-                label="تصویر"
-                variant="outlined"
+              <Input //input mui
                 fullWidth
-                value={editProductData.images[0] || ''}
-                onChange={(e) =>
-                  setEditProductData({
-                    ...editProductData,
-                    images: [e.target.value], // assuming only one image
-                  })
-                }
+                type="file"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    setEditProductData({
+                      ...editProductData,
+                      images: file, // assuming only one image
+                    });
+                  }
+                }}
                 sx={{ mb: 2 }}
               />
+              //img yadet nare src ham product.image o ina bashe
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Button
                   variant="contained"
