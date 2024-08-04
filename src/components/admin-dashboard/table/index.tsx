@@ -40,7 +40,9 @@ const style = {
 
 function SimpleTable() {
   const [data, setData] = useState<any[]>([]);
-  const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openAdd, setOpenAdd] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [deleteId, setDeleteId] = useState('');
   const [editId, setEditId] = useState('');
   const [productToEdit, setProductToEdit] = useState<any>(null);
@@ -62,7 +64,8 @@ function SimpleTable() {
   }, [productData]);
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenDelete(false);
+    setOpenEdit(false);
     setEditProductData(null); // Reset editProductData on close
   };
 
@@ -78,36 +81,38 @@ function SimpleTable() {
   };
 
   const handleEdit = (product: any) => {
-    setOpen(true);
+    setOpenEdit(true);
     setProductToEdit(product);
     console.log('hi');
     setEditId(product._id);
   };
 
   const handleSaveChanges = () => {
-    if (addProductData) {
-      console.log(addProductData);
-      const FD = new FormData();
-      Object.entries(addProductData).forEach(([key, value]) => {
-        FD.append(key, value as string);
-      });
-      editProduct({ id: editId, productData: FD });
-    }
-  };
-  const addProducts = () => {
     if (editProductData) {
       console.log(editProductData);
       const FD = new FormData();
       Object.entries(editProductData).forEach(([key, value]) => {
         FD.append(key, value as string);
       });
+      console.log('click');
+      editProduct({ id: editId, productData: FD });
+    }
+  };
+  const addProducts = () => {
+    console.log(addProductData);
+    if (addProductData) {
+      const FD = new FormData();
+      Object.entries(addProductData).forEach(([key, value]) => {
+        FD.append(key, value as string);
+      });
+      productAdd(FD);
     }
   };
   return (
     <Box>
-      <Button>ثبت محصول</Button>
+      <Button onClick={() => setOpenAdd(true)}>ثبت محصول</Button>
       <Modal
-        open={open}
+        open={openAdd}
         onClose={handleClose}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
@@ -116,64 +121,57 @@ function SimpleTable() {
           <Typography id="modal-title" variant="h6" component="h2">
             افزودن محصول
           </Typography>
-          {productToEdit && (
-            <Box sx={{ mt: 2 }}>
-              <TextField
-                label="نام محصول"
-                variant="outlined"
-                fullWidth
-                defaultValue={productToEdit.name}
-                onChange={(e) =>
+
+          <Box sx={{ mt: 2 }}>
+            <TextField
+              label="نام محصول"
+              variant="outlined"
+              fullWidth
+              onChange={(e) =>
+                setAddProductData({
+                  ...addProductData,
+                  name: e.target.value,
+                })
+              }
+              sx={{ mb: 2 }}
+            />
+            <TextField
+              label="قیمت"
+              variant="outlined"
+              fullWidth
+              type="text"
+              onChange={(e) =>
+                setAddProductData({
+                  ...addProductData,
+                  price: e.target.value,
+                })
+              }
+              sx={{ mb: 2 }}
+            />
+            <Input //input mui
+              fullWidth
+              type="file"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                const file = e.target.files?.[0];
+                if (file) {
                   setAddProductData({
                     ...addProductData,
-                    name: e.target.value,
-                  })
+                    images: file, // assuming only one image
+                  });
                 }
-                sx={{ mb: 2 }}
-              />
-              <TextField
-                label="قیمت"
-                variant="outlined"
-                fullWidth
-                type="text"
-                defaultValue={productToEdit.price}
-                onChange={(e) =>
-                  setAddProductData({
-                    ...addProductData,
-                    price: e.target.value,
-                  })
-                }
-                sx={{ mb: 2 }}
-              />
-              <Input //input mui
-                fullWidth
-                type="file"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    setAddProductData({
-                      ...addProductData,
-                      images: file, // assuming only one image
-                    });
-                  }
-                }}
-                sx={{ mb: 2 }}
-              />
-              //img yadet nare src ham product.image o ina bashe
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={addProducts}
-                >
-                  ثبت
-                </Button>
-                <Button variant="outlined" onClick={handleClose}>
-                  لغو
-                </Button>
-              </Box>
+              }}
+              sx={{ mb: 2 }}
+            />
+            //img yadet nare src ham product.image o ina bashe
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Button variant="contained" color="primary" onClick={addProducts}>
+                ثبت
+              </Button>
+              <Button variant="outlined" onClick={handleClose}>
+                لغو
+              </Button>
             </Box>
-          )}
+          </Box>
         </Box>
       </Modal>
       <TableContainer component={Paper}>
@@ -219,7 +217,7 @@ function SimpleTable() {
                       sx={{ backgroundColor: 'red', mx: '2%' }}
                       startIcon={<DeleteIcon />}
                       onClick={() => {
-                        setOpen(true);
+                        setOpenDelete(true);
                         setDeleteId(item._id);
                       }}
                     >
@@ -242,7 +240,7 @@ function SimpleTable() {
       </TableContainer>
       {/* Delete Confirmation Modal */}
       <Modal
-        open={Boolean(deleteId)}
+        open={openDelete}
         onClose={handleClose}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
@@ -273,7 +271,7 @@ function SimpleTable() {
       </Modal>
       {/* Edit Product Modal */}
       <Modal
-        open={open}
+        open={openEdit}
         onClose={handleClose}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"

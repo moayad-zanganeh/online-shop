@@ -17,12 +17,6 @@ const InventoryAndPrice: React.FC = () => {
 
   const { mutate: editProduct } = useEditProduct();
 
-  useEffect(() => {
-    if (inventory) {
-      setRowsData(createRows(inventory));
-    }
-  }, [inventory]);
-
   const changeInventory = (id: string, value: string) => {
     setRowsData((prevRows) =>
       prevRows.map((row) =>
@@ -43,12 +37,6 @@ const InventoryAndPrice: React.FC = () => {
         inventory: row.inventory,
         price: row.price,
       };
-
-      // Ensure the ID is a string and properly formatted
-      editProduct({
-        id: row.id.toString(), // Ensure ID is a string
-        ...updatedProduct,
-      });
     });
   };
 

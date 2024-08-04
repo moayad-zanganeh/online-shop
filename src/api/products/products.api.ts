@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 export const fetchProduct = async () => {
-  const { data } = await axios.get('http://localhost:8000/api/products');
+  const { data } = await axios.get(
+    'http://localhost:8000/api/products?limit=all'
+  );
   return data;
 };
 
@@ -18,7 +20,13 @@ export const deleteProduct = async (id: string) => {
   return response.data;
 };
 
-export const editProduct = async (id: string, productData: any) => {
+export const editProduct = async ({
+  id,
+  productData,
+}: {
+  id: string;
+  productData: any;
+}) => {
   const res = await axios.patch(
     `http://localhost:8000/api/products/${id}`,
     productData
@@ -26,9 +34,9 @@ export const editProduct = async (id: string, productData: any) => {
   return res.data;
 };
 
-export const addProduct = async () => {
-  const res = await axios.post('http://localhost:8000/api/products');
-  return res;
+export const addProduct = async (data: any) => {
+  const res = await axios.post('http://localhost:8000/api/products', data);
+  return res.data;
 };
 
 export const fetchSingleProduct = async (productId: string) => {

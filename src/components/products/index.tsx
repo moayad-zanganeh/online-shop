@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import Filter from './filter';
-
-import { Box } from '@mui/material';
 import Cards from './card';
+import { Box } from '@mui/material';
 
-function Products() {
-  const [params, setParams] = useState({});
+const ParentComponent = () => {
+  const [params, setParams] = useState<Record<string, string>>({});
 
   return (
-    <Box sx={{ display: 'flex', my: '3%' }}>
+    <Box sx={{ display: 'flex' }}>
       <Filter setParams={setParams} />
-      <Cards />
+      <Cards filterParams={params} />
     </Box>
   );
-}
+};
 
-export default Products;
+export default ParentComponent;

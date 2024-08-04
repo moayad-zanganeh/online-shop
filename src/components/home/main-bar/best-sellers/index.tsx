@@ -5,6 +5,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useRouter } from 'next/router';
 function BestSellers() {
   const { data: productAll, error, isLoading } = useFetchProduct();
+  console.log(productAll);
   const [currentPage, setCurrentPage] = useState(1);
   const router = useRouter();
   const productsPerPage = 9;

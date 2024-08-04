@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -7,11 +7,17 @@ import {
   CardMedia,
   Divider,
   Typography,
+  IconButton,
 } from '@mui/material';
+import { Add, Remove } from '@mui/icons-material';
 import { useFetchSingleProduct } from '@/api/products/products.querys';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SingleCard = ({ productId }: { productId: string }) => {
   const { data, error, isLoading } = useFetchSingleProduct(productId);
+  const [quantity, setQuantity] = useState(1);
+  const [isAddedToCart, setIsAddedToCart] = useState(false); // New state for managing button visibility
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;
@@ -27,9 +33,40 @@ const SingleCard = ({ productId }: { productId: string }) => {
 
   const product = data.data.product;
 
+  const handleAddToCart = () => {
+    if (quantity > product.quantity) {
+      toast.error('موجودی انبار کافی نیست');
+      return;
+    }
+    setIsAddedToCart(true); // Hide "افزودن به سبد خرید" button and show controls
+  };
+
+  const handlePlaceOrder = () => {
+    if (quantity > product.quantity) {
+      toast.error('موجودی انبار کافی نیست');
+      return;
+    }
+    // فرض می‌کنیم که یک درخواست API برای کاهش موجودی محصول ارسال می‌کنیم
+    // اینجا می‌توانید از یک درخواست API واقعی استفاده کنید
+    product.quantity -= quantity;
+    toast.success('سفارش شما ثبت شد');
+    setIsAddedToCart(false); // Hide controls and show "افزودن به سبد خرید" button again
+  };
+
+  const incrementQuantity = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const decrementQuantity = () => {
+    if (quantity > 1) {
+      setQuantity((prev) => prev - 1);
+    }
+  };
+
   return (
     <Box sx={{ display: 'flex', mx: 3 }}>
-      <Card sx={{ display: 'flex' }}>
+      <ToastContainer />
+      <Card sx={{ display: 'flex', width: '100%' }}>
         <CardMedia
           component="img"
           height="300"
@@ -44,6 +81,30 @@ const SingleCard = ({ productId }: { productId: string }) => {
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {product.name}
+          </Typography>
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{ fontSize: '18px', color: 'gray', mt: 3 }}
+          >
+            توضیحات کوتاه : {product.description}
+          </Typography>
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{ fontSize: '18px', color: 'gray', my: 3 }}
+          >
+            برند : {product.brand}
+          </Typography>
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{ fontSize: '18px', color: 'gray' }}
+          >
+            میزان موجودی در انبار : {product.quantity}
           </Typography>
         </CardContent>
 
@@ -115,16 +176,75 @@ const SingleCard = ({ productId }: { productId: string }) => {
             >
               {product.price} تومان
             </Typography>
-            <Button
-              sx={{
-                backgroundColor: '#ee384e',
-                color: 'white',
-                fontWeight: '700',
-                fontSize: '18px',
-              }}
-            >
-              افزودن به سبد خرید
-            </Button>
+
+            {isAddedToCart ? (
+              <>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    // justifyContent: 'space-between',
+                    alignItems: 'center',
+                    mx: 'auto',
+                    py: 2,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      backgroundColor: '#ee384e',
+                      borderRadius: '15px 0 0 15px',
+                    }}
+                  >
+                    <IconButton
+                      sx={{ color: 'white' }}
+                      onClick={decrementQuantity}
+                    >
+                      <Remove />
+                    </IconButton>
+                  </Box>
+                  <Typography sx={{ mx: 2 }}>{quantity}</Typography>
+                  <Box
+                    sx={{
+                      backgroundColor: '#ee384e',
+                      borderRadius: '0 15px 15px 0',
+                    }}
+                  >
+                    <IconButton
+                      sx={{ color: 'white' }}
+                      onClick={incrementQuantity}
+                    >
+                      <Add />
+                    </IconButton>
+                  </Box>
+
+                  <Button
+                    onClick={handlePlaceOrder}
+                    sx={{
+                      backgroundColor: '#ee384e',
+                      color: 'white',
+                      fontWeight: '700',
+                      fontSize: '18px',
+                      ml: 5,
+                      ':hover': { backgroundColor: '#ee384e', color: 'white' },
+                    }}
+                  >
+                    ثبت سفارش
+                  </Button>
+                </Box>
+              </>
+            ) : (
+              <Button
+                onClick={handleAddToCart}
+                sx={{
+                  backgroundColor: '#ee384e',
+                  color: 'white',
+                  fontWeight: '700',
+                  fontSize: '18px',
+                  ':hover': { backgroundColor: '#ee384e', color: 'white' },
+                }}
+              >
+                افزودن به سبد خرید
+              </Button>
+            )}
           </Box>
         </CardContent>
       </Card>

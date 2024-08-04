@@ -5,6 +5,7 @@ import {
   editProduct,
   fetchProduct,
   fetchProductById,
+  fetchProductFilter,
   fetchSingleProduct,
 } from './products.api';
 
@@ -40,13 +41,28 @@ export const useDeleteProduct = () => {
   });
 };
 
+// export const useEditProduct = () => {
+//   const queryClient = useQueryClient();
+
+//   return useMutation({
+//     mutationKey: ['edit-product'],
+//     mutationFn: ({ id, productData }: { id: string; productData: any }) =>
+//       editProduct(id, productData),
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ['all-products'] });
+//     },
+//     onError: (error) => {
+//       console.error('Error editing product:', error);
+//     },
+//   });
+// };
+
 export const useEditProduct = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['edit-product'],
-    mutationFn: ({ id, productData }: { id: string; productData: any }) =>
-      editProduct(id, productData),
+    mutationFn: editProduct,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['all-products'] });
     },
@@ -57,9 +73,14 @@ export const useEditProduct = () => {
 };
 
 export const useAddProduct = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ['add-products'],
     mutationFn: addProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['all-products'] });
+    },
   });
 };
 

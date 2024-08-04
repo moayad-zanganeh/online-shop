@@ -1,4 +1,4 @@
-import { pageLevelLocalization } from '@/constants/localization';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -9,7 +9,6 @@ import {
   Slider,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
 
 const Filter = ({
   setParams,
@@ -24,16 +23,16 @@ const Filter = ({
     setPriceRange(newValue as number[]);
   };
 
-  const handleCategoryChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setCategory(event.target.value);
+  const handleCategoryChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    const selectedValue = event.target.value as string;
+    setCategory(selectedValue);
   };
 
-  const handleSortChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setSort(event.target.value);
+  const handleSortChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    const selectedValue = event.target.value as string;
+    setSort(selectedValue);
   };
 
   const handleSubmit = () => {
@@ -95,7 +94,7 @@ const Filter = ({
               <MenuItem dir="rtl" value="">
                 برند
               </MenuItem>
-              <MenuItem dir="rtl" value="iphone">
+              <MenuItem dir="rtl" value="apple">
                 آیفون
               </MenuItem>
               <MenuItem dir="rtl" value="samsung">

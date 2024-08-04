@@ -9,10 +9,10 @@ import {
   Pagination,
   Box,
 } from '@mui/material';
-import { useFetchProduct } from '@/api/products/products.querys';
 import { useRouter } from 'next/router';
+import { useFetchProduct } from '@/api/products/products.querys';
 
-export default function Cards() {
+const Cards = ({ filterParams }) => {
   const { data: productAll, error, isLoading } = useFetchProduct();
   const [currentPage, setCurrentPage] = React.useState(1);
   const router = useRouter();
@@ -31,19 +31,39 @@ export default function Cards() {
     return <Typography>No data available</Typography>;
   }
 
-  const dataProducts = productAll.data.products.map((product: any) => ({
+  const allProducts = productAll.data.products.map((product: any) => ({
     id: product._id,
     name: product.name,
     images: product.images,
     price: product.price,
+    brand: product.brand,
   }));
 
-  // const indexOfLastProduct = currentPage * productsPerPage;
-  // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  // const currentProducts = dataProducts.slice(
-  //   indexOfFirstProduct,
-  //   indexOfLastProduct
-  // );
+  let filteredProducts = allProducts;
+
+  if (Object.keys(filterParams).length > 0) {
+    filteredProducts = allProducts.filter((product) => {
+      const matchesCategory =
+        !filterParams.category || product.brand === filterParams.category;
+      const matchesPrice =
+        product.price >= filterParams.price_gte &&
+        product.price <= filterParams.price_lte;
+      return matchesCategory && matchesPrice;
+    });
+
+    if (filterParams._order === 'asc') {
+      filteredProducts.sort((a, b) => a.price - b.price);
+    } else if (filterParams._order === 'desc') {
+      filteredProducts.sort((a, b) => b.price - a.price);
+    }
+  }
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -63,7 +83,7 @@ export default function Cards() {
   return (
     <Box>
       <Grid container spacing={2}>
-        {dataProducts.map((product) => (
+        {currentProducts?.map((product: any) => (
           <Grid item key={product.id} xs={12} sm={6} md={4}>
             <Card
               sx={{
@@ -111,11 +131,13 @@ export default function Cards() {
         ))}
       </Grid>
       <Pagination
-        count={Math.ceil(dataProducts.length / productsPerPage)}
+        count={Math.ceil(filteredProducts.length / productsPerPage)}
         page={currentPage}
         onChange={handlePageChange}
         sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}
       />
     </Box>
   );
-}
+};
+
+export default Cards;
