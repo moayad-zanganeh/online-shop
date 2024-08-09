@@ -7,7 +7,7 @@ const ParentComponent = () => {
   const [params, setParams] = useState<Record<string, string>>({});
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', my: 5 }}>
       <Filter setParams={setParams} />
       <Cards filterParams={params} />
     </Box>

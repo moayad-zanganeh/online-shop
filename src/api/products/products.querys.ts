@@ -5,7 +5,6 @@ import {
   editProduct,
   fetchProduct,
   fetchProductById,
-  fetchProductFilter,
   fetchSingleProduct,
 } from './products.api';
 

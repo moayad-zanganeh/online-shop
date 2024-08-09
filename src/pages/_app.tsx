@@ -1,10 +1,27 @@
-import '../styles/globals.css';
-import type { NextPage } from 'next';
+// src/pages/_app.tsx
+import '@/styles/globals.css';
+import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import type { AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
+import type { NextPage } from 'next';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import ThemeContextProvider from '@/context/themContextProvider';
+import { CartProvider } from '@/context/cartContext'; // Import CartProvider
+
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+const defaultTheme = createTheme({
+  typography: {
+    fontFamily: 'Iransans',
+  },
+  direction: 'rtl',
+});
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,23 +35,7 @@ const queryClient = new QueryClient({
   },
 });
 
-const defaultTheme = createTheme({
-  typography: {
-    fontFamily: 'Iransans',
-  },
-  direction: 'rtl',
-});
-
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-  getLayout?: (page: ReactElement) => ReactNode;
-};
-
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
-};
-
-export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  // Use the layout defined at the page level, if available
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
@@ -42,7 +43,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={defaultTheme}>
           <CssBaseline />
-          {getLayout(<Component {...pageProps} />)}
+          <CartProvider>{getLayout(<Component {...pageProps} />)}</CartProvider>
         </ThemeProvider>
       </QueryClientProvider>
     </ThemeContextProvider>

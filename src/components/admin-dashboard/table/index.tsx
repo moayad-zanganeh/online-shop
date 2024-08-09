@@ -15,6 +15,10 @@ import {
   CardMedia,
   TextField,
   Input,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -46,8 +50,7 @@ function SimpleTable() {
   const [deleteId, setDeleteId] = useState('');
   const [editId, setEditId] = useState('');
   const [productToEdit, setProductToEdit] = useState<any>(null);
-  const [addProduct, setAddProduct] = useState<any>(null);
-
+  const [category, setCategory] = useState('');
   const [editProductData, setEditProductData] = useState<any>(null);
   const [addProductData, setAddProductData] = useState<any>(null);
   const [page, setPage] = useState(0);
@@ -66,7 +69,7 @@ function SimpleTable() {
   const handleClose = () => {
     setOpenDelete(false);
     setOpenEdit(false);
-    setEditProductData(null); // Reset editProductData on close
+    setEditProductData(null);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -108,9 +111,26 @@ function SimpleTable() {
       productAdd(FD);
     }
   };
+  const handleCategoryChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    const selectedValue = event.target.value as string;
+    setCategory(selectedValue);
+  };
   return (
     <Box>
-      <Button onClick={() => setOpenAdd(true)}>ثبت محصول</Button>
+      <Button
+        onClick={() => setOpenAdd(true)}
+        sx={{
+          backgroundColor: 'blue',
+          color: 'white',
+          fontSize: '16px',
+          px: 2,
+          m: 2,
+        }}
+      >
+        ثبت محصول
+      </Button>
       <Modal
         open={openAdd}
         onClose={handleClose}
@@ -135,6 +155,26 @@ function SimpleTable() {
               }
               sx={{ mb: 2 }}
             />
+            <FormControl sx={{ width: '100%' }} margin="normal">
+              <InputLabel sx={{ fontWeight: '900' }}>برند</InputLabel>
+              <Select value={category} onChange={handleCategoryChange}>
+                <MenuItem dir="rtl" value="">
+                  برند
+                </MenuItem>
+                <MenuItem dir="rtl" value="apple">
+                  آیفون
+                </MenuItem>
+                <MenuItem dir="rtl" value="samsung">
+                  سامسونگ
+                </MenuItem>
+                <MenuItem dir="rtl" value="xiaomi">
+                  شیائومی
+                </MenuItem>
+                <MenuItem dir="rtl" value="honor">
+                  آنر
+                </MenuItem>
+              </Select>
+            </FormControl>
             <TextField
               label="قیمت"
               variant="outlined"
@@ -148,7 +188,33 @@ function SimpleTable() {
               }
               sx={{ mb: 2 }}
             />
-            <Input //input mui
+            <TextField
+              label="توضیحات کوتاه"
+              variant="outlined"
+              fullWidth
+              type="text"
+              onChange={(e) =>
+                setAddProductData({
+                  ...addProductData,
+                  description: e.target.value,
+                })
+              }
+              sx={{ mb: 2 }}
+            />
+            <TextField
+              label="میزان موجودی در انبار"
+              variant="outlined"
+              fullWidth
+              type="text"
+              onChange={(e) =>
+                setAddProductData({
+                  ...addProductData,
+                  quantity: e.target.value,
+                })
+              }
+              sx={{ mb: 2 }}
+            />
+            <Input
               fullWidth
               type="file"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -156,7 +222,7 @@ function SimpleTable() {
                 if (file) {
                   setAddProductData({
                     ...addProductData,
-                    images: file, // assuming only one image
+                    images: file,
                   });
                 }
               }}
@@ -193,15 +259,20 @@ function SimpleTable() {
                     <CardMedia
                       component="img"
                       height="200"
+                      sx={{ width: '100%', maxWidth: '100px' }}
                       image={
                         item.images && item.images.length > 0
                           ? `http://${item.images[0]}`
                           : '/placeholder.jpg'
                       }
                       alt={item.name}
-                      sx={{ width: '10%' }}
                     />
                   </TableCell>
+                  <TableCell sx={{ textAlign: 'center' }}>
+                    {item.quantity}
+                  </TableCell>
+                  <TableCell>{item.description}</TableCell>
+                  <TableCell>{item.brand}</TableCell>
                   <TableCell>{item.price}</TableCell>
                   <TableCell>
                     <Button
@@ -309,7 +380,49 @@ function SimpleTable() {
                 }
                 sx={{ mb: 2 }}
               />
-              <Input //input mui
+              <TextField
+                label="موجودی محصول"
+                variant="outlined"
+                fullWidth
+                type="text"
+                defaultValue={productToEdit.quantity}
+                onChange={(e) =>
+                  setEditProductData({
+                    ...editProductData,
+                    quantity: e.target.value,
+                  })
+                }
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="توضیحات کوتاه"
+                variant="outlined"
+                fullWidth
+                type="text"
+                defaultValue={productToEdit.description}
+                onChange={(e) =>
+                  setEditProductData({
+                    ...editProductData,
+                    description: e.target.value,
+                  })
+                }
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="برند"
+                variant="outlined"
+                fullWidth
+                type="text"
+                defaultValue={productToEdit.brand}
+                onChange={(e) =>
+                  setEditProductData({
+                    ...editProductData,
+                    brand: e.target.value,
+                  })
+                }
+                sx={{ mb: 2 }}
+              />
+              <Input
                 fullWidth
                 type="file"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -317,7 +430,7 @@ function SimpleTable() {
                   if (file) {
                     setEditProductData({
                       ...editProductData,
-                      images: file, // assuming only one image
+                      images: file,
                     });
                   }
                 }}

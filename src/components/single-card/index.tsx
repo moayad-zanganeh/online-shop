@@ -13,12 +13,13 @@ import { Add, Remove } from '@mui/icons-material';
 import { useFetchSingleProduct } from '@/api/products/products.querys';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useCartStore from '@/store/useCartStore';
 
 const SingleCard = ({ productId }: { productId: string }) => {
   const { data, error, isLoading } = useFetchSingleProduct(productId);
   const [quantity, setQuantity] = useState(1);
-  const [isAddedToCart, setIsAddedToCart] = useState(false); // New state for managing button visibility
-
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
+  const addToCart = useCartStore((state) => state.addToCart);
   if (isLoading) {
     return <Typography>Loading...</Typography>;
   }
@@ -32,25 +33,31 @@ const SingleCard = ({ productId }: { productId: string }) => {
   }
 
   const product = data.data.product;
+  const productIds = product._id;
+  const productName = product.name;
+  const productPrices = product.price;
+  const productImg = product.images;
 
-  const handleAddToCart = () => {
-    if (quantity > product.quantity) {
-      toast.error('موجودی انبار کافی نیست');
-      return;
-    }
-    setIsAddedToCart(true); // Hide "افزودن به سبد خرید" button and show controls
-  };
+  // console.log(product);
+
+  // const handleAddToCart = () => {
+  //   if (quantity > product.quantity) {
+  //     toast.error('موجودی انبار کافی نیست');
+  //     return;
+  //   }
+  //   setIsAddedToCart(true);
+  // };
 
   const handlePlaceOrder = () => {
     if (quantity > product.quantity) {
+      setQuantity(quantity + 1);
       toast.error('موجودی انبار کافی نیست');
       return;
     }
-    // فرض می‌کنیم که یک درخواست API برای کاهش موجودی محصول ارسال می‌کنیم
-    // اینجا می‌توانید از یک درخواست API واقعی استفاده کنید
+
     product.quantity -= quantity;
     toast.success('سفارش شما ثبت شد');
-    setIsAddedToCart(false); // Hide controls and show "افزودن به سبد خرید" button again
+    setIsAddedToCart(false);
   };
 
   const incrementQuantity = () => {
@@ -62,7 +69,25 @@ const SingleCard = ({ productId }: { productId: string }) => {
       setQuantity((prev) => prev - 1);
     }
   };
-
+  const handleAddToCart = (product) => {
+    console.log(product);
+    if (quantity > product.quantity) {
+      toast.error('موجودی انبار کافی نیست');
+      return;
+    }
+    setIsAddedToCart(true);
+    const productToAdd = {
+      _id: productIds,
+      name: productName,
+      price: productPrices,
+      quantity: quantity,
+      image: productImg,
+    };
+    console.log(productToAdd);
+    addToCart(productToAdd);
+    setQuantity(0);
+    toast.success('سفارش شما ثبت شد');
+  };
   return (
     <Box sx={{ display: 'flex', mx: 3 }}>
       <ToastContainer />
@@ -182,7 +207,6 @@ const SingleCard = ({ productId }: { productId: string }) => {
                 <Box
                   sx={{
                     display: 'flex',
-                    // justifyContent: 'space-between',
                     alignItems: 'center',
                     mx: 'auto',
                     py: 2,

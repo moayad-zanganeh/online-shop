@@ -93,10 +93,9 @@ const Cards = ({ filterParams }) => {
               }}
               onClick={() => handleCardClick(product.id)}
             >
-              <CardActionArea>
+              <CardActionArea sx={{ height: '100%' }}>
                 <CardMedia
                   component="img"
-                  height="200"
                   image={
                     product.images && product.images.length > 0
                       ? `http://${product.images[0]}`
@@ -121,6 +120,7 @@ const Cards = ({ filterParams }) => {
                   sx={{
                     fontSize: '20px',
                     textAlign: 'right',
+                    mx: 2,
                   }}
                 >
                   {product.price} تومان

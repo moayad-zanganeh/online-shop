@@ -11,6 +11,9 @@ interface Data {
   photo: string;
   price: number;
   action: string;
+  description: string;
+  brand: string;
+  quantity: string;
 }
 
 function createData(
@@ -18,7 +21,10 @@ function createData(
   name: string,
   photo: string,
   price: number,
-  action: string
+  action: string,
+  description: string,
+  brand: string,
+  quantity: string
 ): Data {
   return {
     id,
@@ -26,6 +32,9 @@ function createData(
     photo,
     price,
     action,
+    description,
+    brand,
+    quantity,
   };
 }
 
@@ -47,6 +56,24 @@ export const headCells: readonly HeadCell[] = [
     numeric: true,
     disablePadding: false,
     label: 'عکس محصول',
+  },
+  {
+    id: 'quantity',
+    numeric: true,
+    disablePadding: false,
+    label: 'موجودی محصول',
+  },
+  {
+    id: 'description',
+    numeric: true,
+    disablePadding: false,
+    label: 'توضیحات کوتاه',
+  },
+  {
+    id: 'brand',
+    numeric: true,
+    disablePadding: false,
+    label: 'برند',
   },
   {
     id: 'price',
