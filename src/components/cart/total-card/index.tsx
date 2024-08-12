@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Box,
   Button,
@@ -16,11 +17,18 @@ const TotalCard = ({ totalPrice }: { totalPrice: number }) => {
   const router = useRouter();
   const hasLogin = hasCookie('access');
   const handleTocheckout = () => {
-    router.push(hasLogin ? '/checkout' : '/auth');
+    router.push('/checkout');
   };
 
   return (
-    <Card sx={{ width: 400, height: 'fit-Content' }} dir="rtl">
+    <Card
+      sx={{
+        width: 400,
+        height: 'fit-content',
+        boxShadow: '0 8px 40px -12px rgba(0,0,0,0.5)',
+      }}
+      dir="rtl"
+    >
       <CardContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           <TextField
@@ -34,24 +42,35 @@ const TotalCard = ({ totalPrice }: { totalPrice: number }) => {
       </CardContent>
       <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography variant="body2" color="secondary">
+          <Typography variant="body2" sx={{ fontSize: '20px', color: 'black' }}>
             قیمت کل
           </Typography>
-          <Typography variant="body2" color="secondary">
+          <Typography
+            variant="body2"
+            sx={{ fontSize: '20px', color: 'black', fontWeight: '900' }}
+          >
             {totalPrice?.toLocaleString('fa')} تومان
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography variant="body2" color="secondary">
+          <Typography variant="body2" sx={{ fontSize: '20px', color: 'black' }}>
             تخفیف :
           </Typography>
-          <Typography variant="body2" color="secondary">
+          <Typography
+            variant="body2"
+            sx={{ fontSize: '20px', color: 'black', fontWeight: '900' }}
+          >
             {(0).toLocaleString('fa')} تومان
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography variant="body2">مبلغ قابل پرداخت :</Typography>
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ fontSize: '20px', color: 'black' }}>
+            مبلغ قابل پرداخت :
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{ fontSize: '20px', color: 'black', fontWeight: '900' }}
+          >
             {totalPrice?.toLocaleString('fa')} تومان
           </Typography>
         </Box>
@@ -59,10 +78,10 @@ const TotalCard = ({ totalPrice }: { totalPrice: number }) => {
       <CardActions>
         <Button
           variant="contained"
-          sx={{ width: '100%' }}
+          sx={{ width: '100%', fontSize: '18px', fontWeight: '900' }}
           onClick={handleTocheckout}
         >
-          نهای کردن خرید
+          نهایی کردن خرید
         </Button>
       </CardActions>
     </Card>

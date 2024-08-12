@@ -21,8 +21,11 @@ import theme from '@/theme/theme';
 import { useFetchSignUp } from '@/api/auth/auth.query';
 import { useRouter } from 'next/router';
 import { authLocalization } from '@/constants/localization';
+import { SetSearchParamsType } from '@/types/auth';
+import { useUserStore } from '@/store/useUser';
+import { setCookie } from 'cookies-next';
 
-export default function SignUp() {
+export default function SignUp({ setSearchParams }: SetSearchParamsType) {
   const { mutate: signUp } = useFetchSignUp();
   const router = useRouter();
   const [userAbout, setUserAbout] = useState({
@@ -33,29 +36,54 @@ export default function SignUp() {
     address: '',
     password: '',
   });
-  console.log(userAbout);
-  const handleChange = (e) => {
+  const { setUserData } = useUserStore();
+
+  const handleSignUpSuccess = (data: any) => {
+    const { user, token } = data.data;
+    setCookie('userId', user._id);
+    setCookie('role', user.role);
+    setCookie('accessToken', token.accessToken);
+    setCookie('refreshToken', token.refreshToken);
+    setUserData({
+      firstname: user.firstname,
+      lastname: user.lastname,
+      phoneNumber: user.phoneNumber,
+      address: user.address,
+      city: '',
+      state: '',
+      postalCode: '',
+      username: user.username,
+    });
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserAbout((prevUser) => ({ ...prevUser, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    signUp(userAbout, {
-      onSuccess: (data) => {
-        console.log(data);
-        // Handle successful sign up, e.g., redirect to login page
-        router.push('/auth/sign-in');
+    signUp(
+      {
+        firstName: userAbout.firstname,
+        lastName: userAbout.lastname,
+        username: userAbout.username,
+        password: userAbout.password,
+        phoneNumber: userAbout.phoneNumber,
+        address: userAbout.address,
       },
-      onError: (error) => {
-        console.error('Error: ', error);
-        if (error.response) {
-          console.error('Error response data: ', error.response.data);
-        }
-      },
-    });
+      {
+        onSuccess: handleSignUpSuccess,
+      }
+    );
   };
 
+  const handleSignIn = () => {
+    setSearchParams({ action: 'signin' });
+  };
+  const handleSignUp = () => {
+    router.push('/');
+  };
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="sm">
@@ -90,7 +118,7 @@ export default function SignUp() {
               margin="normal"
               required
               id="firstname"
-              label={authLocalization.fiestname}
+              label={authLocalization.firstname}
               name="firstname"
               value={userAbout.firstname}
               autoComplete="firstname"
@@ -171,13 +199,15 @@ export default function SignUp() {
                 color: 'white',
                 ':hover': { backgroundColor: '#f01436', color: 'white' },
               }}
+              onClick={handleSignUp}
             >
               {authLocalization.signup}
             </Button>
             <Grid container justifyContent="center">
               <Grid item>
                 <Link
-                  href="/signin"
+                  href="#"
+                  onClick={handleSignIn}
                   variant="body2"
                   sx={{
                     textDecoration: 'none',

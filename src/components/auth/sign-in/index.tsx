@@ -21,20 +21,32 @@ import theme from '@/theme/theme';
 import { useRouter } from 'next/router';
 import { useFetchLogin } from '@/api/auth/auth.query';
 import { setCookie } from 'cookies-next';
-import { userType } from '@/types/user';
-import { authLocalization } from '@/constants/localization';
+import { useUserStore } from '@/store/useUser';
+import { SetSearchParamsType } from '@/types/auth';
 
-export default function SignIn() {
+export default function SignIn({ setSearchParams }: SetSearchParamsType) {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const { mutate: loginUser } = useFetchLogin();
   const router = useRouter();
+  const { setUserData } = useUserStore();
 
-  const handleLoginSuccess = (user: userType) => {
-    console.log(user);
-    setCookie('access', user.id);
-    setCookie('role', user.role);
-    setCookie('name', user.firstname);
+  const handleLoginSuccess = (data: any) => {
+    setCookie('access', data.data.user._id);
+    setCookie('role', data.data.user.role);
+    setCookie('accessToken', data.token.accessToken);
+    setCookie('refreshToken', data.token.refreshToken);
+    setUserData({
+      firstname: data.data.user.firstname,
+      lastname: data.data.user.lastname,
+      email: '',
+      phoneNumber: data.data.user.phoneNumber,
+      address: data.data.user.address,
+      city: '',
+      state: '',
+      postalCode: '',
+      username: '',
+    });
   };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
@@ -46,18 +58,17 @@ export default function SignIn() {
 
     loginUser(user, {
       onSuccess: (data) => {
-        console.log(data);
-        setCookie('user', data.user);
-        handleLoginSuccess(data.data.user);
-        if (data.data.user.role == 'ADMIN') {
-          router.push('/admin-dashboard');
-        } else {
-          router.push('/');
-        }
+        handleLoginSuccess(data);
       },
     });
   };
 
+  const handleSignUp = () => {
+    setSearchParams({ action: 'signup' });
+  };
+  const handleSignIn = () => {
+    router.push('/');
+  };
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -88,7 +99,7 @@ export default function SignIn() {
               required
               fullWidth
               id="name"
-              label={authLocalization.username}
+              label="نام کاربری"
               name="name"
               value={name}
               autoComplete="name"
@@ -101,7 +112,7 @@ export default function SignIn() {
               required
               fullWidth
               name="password"
-              label={authLocalization.password}
+              label="رمز عبور"
               type="password"
               value={password}
               id="password"
@@ -119,22 +130,24 @@ export default function SignIn() {
                 color: 'white',
                 ':hover': { backgroundColor: '#f01436', color: 'white' },
               }}
+              onClick={handleSignIn}
             >
               ورود
             </Button>
             <Grid container justifyContent="center">
               <Grid item>
                 <Link
-                  href="/signup"
+                  onClick={handleSignUp}
                   variant="body2"
                   sx={{
                     color: 'black',
                     textDecoration: 'none',
                     fontSize: '16px',
                     fontWeight: '500',
+                    cursor: 'pointer',
                   }}
                 >
-                  {authLocalization.notRegister} {authLocalization.signup}
+                  {'ثبت نام نکرده‌اید؟ ثبت نام کنید'}
                 </Link>
               </Grid>
             </Grid>

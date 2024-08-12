@@ -15,11 +15,12 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useCartStore from '@/store/useCartStore';
 
-const SingleCard = ({ productId }: { productId: string }) => {
+const SingleCard = ({ productId }) => {
   const { data, error, isLoading } = useFetchSingleProduct(productId);
   const [quantity, setQuantity] = useState(1);
   const [isAddedToCart, setIsAddedToCart] = useState(false);
   const addToCart = useCartStore((state) => state.addToCart);
+
   if (isLoading) {
     return <Typography>Loading...</Typography>;
   }
@@ -33,32 +34,6 @@ const SingleCard = ({ productId }: { productId: string }) => {
   }
 
   const product = data.data.product;
-  const productIds = product._id;
-  const productName = product.name;
-  const productPrices = product.price;
-  const productImg = product.images;
-
-  // console.log(product);
-
-  // const handleAddToCart = () => {
-  //   if (quantity > product.quantity) {
-  //     toast.error('موجودی انبار کافی نیست');
-  //     return;
-  //   }
-  //   setIsAddedToCart(true);
-  // };
-
-  const handlePlaceOrder = () => {
-    if (quantity > product.quantity) {
-      setQuantity(quantity + 1);
-      toast.error('موجودی انبار کافی نیست');
-      return;
-    }
-
-    product.quantity -= quantity;
-    toast.success('سفارش شما ثبت شد');
-    setIsAddedToCart(false);
-  };
 
   const incrementQuantity = () => {
     setQuantity((prev) => prev + 1);
@@ -69,25 +44,37 @@ const SingleCard = ({ productId }: { productId: string }) => {
       setQuantity((prev) => prev - 1);
     }
   };
-  const handleAddToCart = (product) => {
-    console.log(product);
+
+  const handleAddToCart = () => {
     if (quantity > product.quantity) {
       toast.error('موجودی انبار کافی نیست');
       return;
     }
     setIsAddedToCart(true);
+
     const productToAdd = {
-      _id: productIds,
-      name: productName,
-      price: productPrices,
+      _id: product._id,
+      name: product.name,
+      price: product.price,
       quantity: quantity,
-      image: productImg,
+      image: product.images,
     };
-    console.log(productToAdd);
+
     addToCart(productToAdd);
-    setQuantity(0);
-    toast.success('سفارش شما ثبت شد');
+    toast.success('محصول به سبد خرید اضافه شد');
   };
+
+  const handlePlaceOrder = () => {
+    if (quantity > product.quantity) {
+      toast.error('موجودی انبار کافی نیست');
+      return;
+    }
+
+    product.quantity -= quantity;
+    toast.success('سفارش شما ثبت شد');
+    setIsAddedToCart(false);
+  };
+
   return (
     <Box sx={{ display: 'flex', mx: 3 }}>
       <ToastContainer />
@@ -199,7 +186,7 @@ const SingleCard = ({ productId }: { productId: string }) => {
                 my: 3,
               }}
             >
-              {product.price} تومان
+              {product.price.toLocaleString('fa')} تومان
             </Typography>
 
             {isAddedToCart ? (

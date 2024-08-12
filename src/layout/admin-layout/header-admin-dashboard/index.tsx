@@ -57,6 +57,9 @@ export default function HeaderAadminDashboard() {
                 </Link>
               </MenuItem>
               <MenuItem sx={{ fontSize: '20px' }} onClick={handleClose}>
+                <Link href={'/admin-dashboard/order'}>سفارشات</Link>
+              </MenuItem>
+              <MenuItem sx={{ fontSize: '20px' }} onClick={handleClose}>
                 <Link href={'#'}>وضعیت تحویل سفارش</Link>
               </MenuItem>
             </Menu>

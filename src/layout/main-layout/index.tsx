@@ -2,9 +2,11 @@ import { ReactNode, useEffect, useState } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import Footer from './footer';
 import Header from './header';
+import { useUserStore } from '@/store/useUser';
 
 export default function MainLayout({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
+  const user = useUserStore((state) => state.userData);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -12,6 +14,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
     }, 3000);
     return () => clearTimeout(timer);
   }, []);
+
   return (
     <Box>
       {loading ? (
@@ -25,7 +28,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
         </Box>
       ) : (
         <Box>
-          <Header />
+          <Header user={user} />
           {children}
           <Footer />
         </Box>

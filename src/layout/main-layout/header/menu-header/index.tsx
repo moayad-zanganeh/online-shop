@@ -46,7 +46,7 @@ function MenuHeader() {
   return (
     <AppBar
       position="static"
-      sx={{ backgroundColor: 'white', boxShadow: 'none', marginTop: '4%' }}
+      sx={{ backgroundColor: 'white', boxShadow: 'none', marginTop: '5%' }}
     >
       <Toolbar>
         <Box

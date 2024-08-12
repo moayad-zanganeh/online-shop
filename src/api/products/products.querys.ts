@@ -40,22 +40,6 @@ export const useDeleteProduct = () => {
   });
 };
 
-// export const useEditProduct = () => {
-//   const queryClient = useQueryClient();
-
-//   return useMutation({
-//     mutationKey: ['edit-product'],
-//     mutationFn: ({ id, productData }: { id: string; productData: any }) =>
-//       editProduct(id, productData),
-//     onSuccess: () => {
-//       queryClient.invalidateQueries({ queryKey: ['all-products'] });
-//     },
-//     onError: (error) => {
-//       console.error('Error editing product:', error);
-//     },
-//   });
-// };
-
 export const useEditProduct = () => {
   const queryClient = useQueryClient();
 

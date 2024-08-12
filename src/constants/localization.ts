@@ -51,7 +51,7 @@ export const buyingGuideFromUranusLocalization = {
 export const authLocalization = {
   username: 'نام کاربری',
   password: 'پسورد',
-  fiestname: 'نام',
+  firstname: 'نام',
   lastname: 'نام خانوادگی',
   address: 'آدرس',
   phoneNumber: 'شماره تلفن',
