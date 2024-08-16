@@ -173,7 +173,7 @@ function BestSellers() {
         onClick={handleNextPage}
         sx={{
           position: 'absolute',
-          right: '3%',
+          right: '1%',
           backgroundColor: 'white',
           borderRadius: '50%',
           width: '3%',
