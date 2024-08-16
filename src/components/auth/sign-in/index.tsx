@@ -23,11 +23,13 @@ import { useFetchLogin } from '@/api/auth/auth.query';
 import { setCookie } from 'cookies-next';
 import { useUserStore } from '@/store/useUser';
 import { SetSearchParamsType } from '@/types/auth';
+import { authLocalization } from '@/constants/localization';
 
 export default function SignIn({ setSearchParams }: SetSearchParamsType) {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const { mutate: loginUser } = useFetchLogin();
+  console.log(loginUser);
   const router = useRouter();
   const { setUserData } = useUserStore();
 
@@ -47,6 +49,7 @@ export default function SignIn({ setSearchParams }: SetSearchParamsType) {
       postalCode: '',
       username: '',
     });
+    router.push('/');
   };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
@@ -59,6 +62,7 @@ export default function SignIn({ setSearchParams }: SetSearchParamsType) {
     loginUser(user, {
       onSuccess: (data) => {
         handleLoginSuccess(data);
+        localStorage.setItem('user', JSON.stringify(data.data.user));
       },
     });
   };
@@ -66,26 +70,26 @@ export default function SignIn({ setSearchParams }: SetSearchParamsType) {
   const handleSignUp = () => {
     setSearchParams({ action: 'signup' });
   };
-  const handleSignIn = () => {
-    router.push('/');
-  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Paper elevation={10} sx={{ padding: 3, borderRadius: '10px', mt: 8 }}>
           <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-            <Card sx={{ maxWidth: 150, boxShadow: 'none' }}>
-              <CardMedia
-                component="img"
-                height="140"
-                image="https://www.digikala.com/statics/img/svg/logo.svg"
-                alt="Uranus-Image"
-              />
-            </Card>
+            <Box
+              sx={{
+                color: 'red',
+                fontSize: '28px',
+                fontWeight: 900,
+                maxWidth: 150,
+              }}
+            >
+              Uranus
+            </Box>
           </Box>
           <Typography component="h1" variant="h4" sx={{ textAlign: 'left' }}>
-            {'ورود'}
+            {authLocalization.signin}
           </Typography>
           <Box
             component="form"
@@ -99,7 +103,7 @@ export default function SignIn({ setSearchParams }: SetSearchParamsType) {
               required
               fullWidth
               id="name"
-              label="نام کاربری"
+              label={authLocalization.username}
               name="name"
               value={name}
               autoComplete="name"
@@ -112,7 +116,7 @@ export default function SignIn({ setSearchParams }: SetSearchParamsType) {
               required
               fullWidth
               name="password"
-              label="رمز عبور"
+              label={authLocalization.password}
               type="password"
               value={password}
               id="password"
@@ -130,9 +134,8 @@ export default function SignIn({ setSearchParams }: SetSearchParamsType) {
                 color: 'white',
                 ':hover': { backgroundColor: '#f01436', color: 'white' },
               }}
-              onClick={handleSignIn}
             >
-              ورود
+              {authLocalization.signin}
             </Button>
             <Grid container justifyContent="center">
               <Grid item>
@@ -147,7 +150,7 @@ export default function SignIn({ setSearchParams }: SetSearchParamsType) {
                     cursor: 'pointer',
                   }}
                 >
-                  {'ثبت نام نکرده‌اید؟ ثبت نام کنید'}
+                  {authLocalization.notRegister}
                 </Link>
               </Grid>
             </Grid>

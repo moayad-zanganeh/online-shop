@@ -1,4 +1,3 @@
-import { OrderType } from '@/types/order';
 import axios from 'axios';
 
 export const getAllOrders = async () => {
@@ -6,7 +5,7 @@ export const getAllOrders = async () => {
   return response.data;
 };
 
-export const addNewOrders = async (data: OrderType) => {
+export const addNewOrders = async (data: Order) => {
   const response = await axios.post(`http://localhost:8000/api/orders`, data);
   return response.data;
 };
@@ -18,10 +17,5 @@ export const getOrdersById = async (id: string) => {
 
 export const editOrderById = async (id: string) => {
   const response = await axios.patch(`http://localhost:8000/api/orders/${id}`);
-  return response.data;
-};
-
-export const removeOrderById = async (id: string) => {
-  const response = await axios.delete(`http://localhost:8000/api/orders/${id}`);
   return response.data;
 };

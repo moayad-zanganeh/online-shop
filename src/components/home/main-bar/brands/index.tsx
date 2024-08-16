@@ -1,20 +1,24 @@
+import { brandsMobile } from '@/constants/localization';
 import { Box, CardMedia, Typography } from '@mui/material';
-import React from 'react';
 
 const images = [
   '/images/honor.jpg',
   '/images/iphone.png',
-  '/images/nokia.png',
   '/images/samsung.png',
   '/images/xiaomi.png',
 ];
-const nameBrands = ['آنر', 'آیفون', 'نوکیا', 'سامسنوگ', 'شیائومی'];
+const nameBrands = [
+  brandsMobile.honor,
+  brandsMobile.apple,
+  brandsMobile.sumsung,
+  brandsMobile.xiaomi,
+];
 
 function Brands() {
   return (
     <Box sx={{ width: '95%', mx: 'auto', textAlign: 'center', my: 10 }}>
       <Typography variant="h4" sx={{ color: 'black', mx: '2%', my: 5 }}>
-        گوشی بر اساس برند
+        {brandsMobile.phoneBrand}{' '}
       </Typography>
       <Box sx={{ display: 'flex' }}>
         {images.map((image, index) => (

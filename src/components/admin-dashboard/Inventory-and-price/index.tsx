@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { useMutation } from '@tanstack/react-query';
 import {
   useFetchProduct,
   useEditProduct,
 } from '@/api/products/products.querys';
 import { columns, createRows } from '@/constants/mock-data/inventory';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { Loading } from '@/components/shared/loading';
 
 const PAGE_SIZE_OPTIONS = [5, 10];
@@ -42,10 +41,9 @@ const InventoryAndPrice: React.FC = () => {
 
   return (
     <Box sx={{ height: 400, width: '100%' }}>
-      <Button onClick={handleSaveChanges}>ثبت تغییرات</Button>
       {!isLoading ? (
         <DataGrid
-          rows={rowsData}
+          rows={createRows(inventory)}
           columns={columns({ changeInventory, changePrice })}
           initialState={{
             pagination: {

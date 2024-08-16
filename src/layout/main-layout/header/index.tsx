@@ -12,7 +12,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Card, CardMedia, styled, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import { authLocalization } from '@/constants/localization';
+import {
+  authLocalization,
+  headerMenoLocalization,
+} from '@/constants/localization';
 import { useCart } from '@/context/cartContext';
 import { useUserStore } from '@/store/useUser';
 import MenuHeader from './menu-header';
@@ -29,11 +32,10 @@ const Search = styled('div')(({ theme }) => ({
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 0, 1.5, 1),
   height: '100%',
-  marginRight: '1%',
   position: 'absolute',
   pointerEvents: 'none',
+  top: 1,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -42,8 +44,9 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
-    padding: theme.spacing(0, 4, 1, 0),
+    // padding: theme.spacing(0, 4, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    position: 'relative',
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
@@ -55,7 +58,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Header() {
   const { cart } = useCart();
   const router = useRouter();
-  const user = useUserStore((state) => state.userData); // Get user data
+  const user = useUserStore((state) => state.userData);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleCartClick = () => {
@@ -71,13 +74,13 @@ export default function Header() {
   };
 
   const handleLogout = () => {
-    useUserStore.getState().setUserData(null); // Reset user data
-    router.push('/'); // Redirect to home page
+    useUserStore.getState().setUserData(null);
+    router.push('/');
     handleMenuClose();
   };
 
   const handleAdminDashboard = () => {
-    router.push('/admin/dashboard'); // Redirect to admin dashboard
+    router.push('/admin/dashboard');
     handleMenuClose();
   };
 
@@ -85,21 +88,16 @@ export default function Header() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" sx={{ backgroundColor: 'white', top: '0' }}>
         <Toolbar>
-          <Card sx={{ maxWidth: 345, boxShadow: 'none' }}>
-            <CardMedia
-              component="img"
-              height="140"
-              image="https://www.digikala.com/statics/img/svg/logo.svg"
-              alt="Uranus-Image"
-            />
-          </Card>
-          <Search sx={{ backgroundColor: '#d6d6d6' }}>
+          <Box sx={{ color: 'red', fontSize: '28px', fontWeight: 900 }}>
+            Uranus
+          </Box>
+          <Search sx={{ backgroundColor: '#f0f0f1' }}>
             <SearchIconWrapper>
-              <SearchIcon sx={{ marginLeft: '20%' }} />
+              <SearchIcon sx={{ mx: '5%', color: '#a1a3a8', ml: 1 }} />
             </SearchIconWrapper>
             <StyledInputBase
-              sx={{ padding: '2%' }}
-              placeholder="جستجو"
+              sx={{ py: '1%', color: '#81878e' }}
+              placeholder={headerMenoLocalization.search}
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
@@ -118,21 +116,18 @@ export default function Header() {
             onClick={user ? handleProfileMenuOpen : undefined}
           >
             {user ? (
-              <Typography
-                variant="body1"
-                sx={{ color: 'black', margin: '0 3%' }}
-              >
-                سلام {user.firstname}
+              <Typography variant="body1" sx={{ color: 'black' }}>
+                {headerMenoLocalization.hello} {user.firstname}
               </Typography>
             ) : (
               <>
-                <Box component="span" sx={{ color: 'black', margin: '0 3%' }}>
+                <Box component="span" sx={{ color: 'black', margin: '0 7%' }}>
                   <LoginIcon sx={{ transform: 'rotate(180deg)' }} />
                 </Box>
                 <Box
                   component="span"
-                  sx={{ color: 'black', margin: '-3% 0 0 0', fontSize: '17px' }}
-                  onClick={() => router.push('auth/sign-in')}
+                  sx={{ color: 'black', fontSize: '17px' }}
+                  onClick={() => router.push('/auth')}
                 >
                   {authLocalization.signin}
                 </Box>
@@ -148,7 +143,7 @@ export default function Header() {
                 <Box
                   component="span"
                   sx={{ color: 'black' }}
-                  onClick={() => router.push('/auth/sign-up')}
+                  onClick={() => router.push('/auth')}
                 >
                   {authLocalization.signup}
                 </Box>
@@ -174,7 +169,9 @@ export default function Header() {
                 Admin Dashboard
               </MenuItem>
             )}
-            <MenuItem onClick={handleLogout}>خروج</MenuItem>
+            <MenuItem onClick={handleLogout}>
+              {headerMenoLocalization.logout}
+            </MenuItem>
           </Menu>
           <Box sx={{ width: '5%', display: 'flex', margin: '0 1%' }}>
             <Box

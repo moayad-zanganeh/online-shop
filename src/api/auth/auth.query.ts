@@ -15,6 +15,7 @@ export const useFetchLogin = () => {
     onSuccess: (data) => {
       const userData = data.data.user;
       setUserData(userData);
+      router.push('/');
     },
   });
 };
@@ -28,6 +29,7 @@ export const useFetchSignUp = () => {
     onSuccess: (data) => {
       const userData = data.data.user;
       setUserData(userData);
+      router.push('/');
     },
   });
 };

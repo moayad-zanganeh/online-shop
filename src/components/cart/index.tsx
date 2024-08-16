@@ -1,8 +1,8 @@
-import React from 'react';
 import { Box, Typography } from '@mui/material';
 import useCartStore from '@/store/useCartStore';
 import CardOfCart from './card';
 import TotalCard from './total-card';
+import { cardLocalization } from '@/constants/localization';
 
 const Cart = () => {
   const cart = useCartStore((state) => state.cart);
@@ -20,7 +20,9 @@ const Cart = () => {
         }}
       >
         {cart.length === 0 ? (
-          <Typography variant="body1">سبد خرید شما خالی است.</Typography>
+          <Typography variant="body1">
+            {cardLocalization.notShopping}
+          </Typography>
         ) : (
           cart.map((product) => (
             <CardOfCart key={product._id} product={product} />

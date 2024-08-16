@@ -1,22 +1,78 @@
-import React, { useState } from 'react';
-import { Container, TextField, Button, Typography, Box } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { TextField, Button, Typography, Box } from '@mui/material';
+import { paymentLocalization } from '@/constants/localization';
+import { useAddNewOrders } from '@/api/order/order.query';
+import useCartStore from '@/store/useCartStore';
 
 function PaymentForm() {
   const [cardNumber, setCardNumber] = useState('');
-
+  const [timeRemaining, setTimeRemaining] = useState(60);
+  const [totalPrice, setTotalPrice] = useState(1000000);
+  // const { mutate } = useAddNewOrders();
+  // const [user, setUser] = useState(null);
+  // const cartStorage = useCartStore((state) => state.cart);
+  // useEffect(() => {
+  //   const userString = localStorage.getItem('userStorage');
+  //   if (userString) {
+  //     setUser(JSON.parse(userString));
+  //   }
+  // });
   const handleCardNumberChange = (e) => {
     let value = e.target.value.replace(/\s+/g, '');
     if (value.length > 16) value = value.slice(0, 16);
     setCardNumber(value.replace(/(\d{4})(?=\d)/g, '$1 '));
   };
 
+  useEffect(() => {
+    if (timeRemaining === 0) {
+      //   navigate('/'); // هدایت به مسیر جدید در صورت پایان تایمر
+      //   return;
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setTimeRemaining((prevTime) => prevTime - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeRemaining]);
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs < 10 ? `0${secs}` : secs}`;
+  };
+  // const handleOkClick = () => {
+  //   if (!user) {
+  //     console.error('user not found');
+  //     return;
+  //   }
+
+  //   const order = {
+  //     user: user._id,
+  //     products: cartStorage.map((item) => ({
+  //       product: item._id,
+  //       count: item.quantity,
+  //     })),
+  //     deliveryStatus: false,
+  //   };
+
+  //   mutate(order, {
+  //     onSuccess: () => {
+  //       console.log('hhh');
+  //     },
+  //     onError: (error) => {
+  //       console.error('Order failed', error);
+  //     },
+  //   });
+  // };
   return (
     <Box>
-      <Typography variant="h5" gutterBottom align="center" sx={{ my: 5 }}>
-        پرداخت با درگاه ملت
+      <Typography variant="h5" gutterBottom align="center" sx={{ my: 1 }}>
+        {paymentLocalization.paymentMelat}
       </Typography>
 
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', my: 2 }}>
         <Box maxWidth="md" sx={{ borderRadius: 2, boxShadow: 3, mx: 2 }}>
           <Box
             component="form"
@@ -29,6 +85,7 @@ function PaymentForm() {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
+                mb: 2,
               }}
             >
               <Typography
@@ -37,22 +94,30 @@ function PaymentForm() {
                 align="left"
                 sx={{
                   backgroundColor: 'gray',
-                  p: 1,
+                  px: 2,
+                  py: 1,
                   borderRadius: '10px 0 20px 0',
+                  color: 'white',
+                  fontSize: '16px',
                 }}
               >
-                اطلاعات کارت
+                {paymentLocalization.cardInformation}
               </Typography>
-              <Typography variant="h5" gutterBottom align="right">
-                زمان باقی مانده:
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', mr: 2, mt: 1 }}>
+                <Typography sx={{ fontSize: '20px' }}>
+                  {paymentLocalization.timeRemaining}
+                </Typography>
+                <Typography sx={{ mx: 1, fontWeight: 900, fontSize: '18px' }}>
+                  {formatTime(timeRemaining)}
+                </Typography>
+              </Box>
             </Box>
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center',
-                mx: 2,
+                mb: 2,
               }}
             >
               <Box>
@@ -62,7 +127,7 @@ function PaymentForm() {
                   align="left"
                   sx={{ fontSize: '18px', fontWeight: 900 }}
                 >
-                  شماره کارت
+                  {paymentLocalization.phoneCard}
                 </Typography>
                 <Typography
                   variant="h5"
@@ -70,7 +135,7 @@ function PaymentForm() {
                   align="left"
                   sx={{ fontSize: '14px', color: 'gray' }}
                 >
-                  شماره کارت 16 رقمی درج شده روی کارت وارد نمایید
+                  {paymentLocalization.aboutPhoneCard}
                 </Typography>
               </Box>
               <TextField
@@ -95,7 +160,7 @@ function PaymentForm() {
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center',
-                mx: 2,
+                mb: 2,
               }}
             >
               <Box>
@@ -105,7 +170,7 @@ function PaymentForm() {
                   align="left"
                   sx={{ fontSize: '18px', fontWeight: 900 }}
                 >
-                  شماره شناسایی دوم (CVV2)
+                  {paymentLocalization.secondIdentificationNumber}
                 </Typography>
                 <Typography
                   variant="h5"
@@ -113,7 +178,7 @@ function PaymentForm() {
                   align="left"
                   sx={{ fontSize: '14px', color: 'gray' }}
                 >
-                  شماره 3 یا 4 رقمی درج شده روی کارت را وارد نمایید
+                  {paymentLocalization.aboutSIN}
                 </Typography>
               </Box>
 
@@ -132,17 +197,17 @@ function PaymentForm() {
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center',
-                mx: 2,
+                mb: 2,
               }}
             >
-              <Box sx={{ mr: 5 }}>
+              <Box sx={{ mr: 17 }}>
                 <Typography
                   variant="h5"
                   gutterBottom
                   align="left"
                   sx={{ fontSize: '18px', fontWeight: 900 }}
                 >
-                  تاریخ انقضای کارت
+                  {paymentLocalization.cardExpirationDate}
                 </Typography>
                 <Typography
                   variant="h5"
@@ -150,18 +215,18 @@ function PaymentForm() {
                   align="left"
                   sx={{ fontSize: '14px', color: 'gray' }}
                 >
-                  تاریخ انقضای کارت وارد کنید.
+                  {paymentLocalization.aboutCED}
                 </Typography>
               </Box>
 
-              <Box sx={{ mx: '11%' }}>
+              <Box>
                 <TextField
                   label=""
                   type="text"
                   variant="outlined"
                   margin="normal"
                   required
-                  placeholder="ماه"
+                  placeholder={paymentLocalization.month}
                   inputProps={{ maxLength: 2, style: { textAlign: 'right' } }}
                   sx={{ mx: 2, width: '20%' }}
                 />
@@ -171,7 +236,7 @@ function PaymentForm() {
                   variant="outlined"
                   margin="normal"
                   required
-                  placeholder="سال"
+                  placeholder={paymentLocalization.year}
                   inputProps={{ maxLength: 2, style: { textAlign: 'right' } }}
                   sx={{ mx: 2, width: '20%' }}
                 />
@@ -182,17 +247,17 @@ function PaymentForm() {
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center',
-                mx: 2,
+                mb: 2,
               }}
             >
-              <Box sx={{ mr: 7 }}>
+              <Box>
                 <Typography
                   variant="h5"
                   gutterBottom
                   align="left"
                   sx={{ fontSize: '18px', fontWeight: 900 }}
                 >
-                  کد امنیتی{' '}
+                  {paymentLocalization.securityCode}
                 </Typography>
                 <Typography
                   variant="h5"
@@ -200,7 +265,7 @@ function PaymentForm() {
                   align="left"
                   sx={{ fontSize: '14px', color: 'gray' }}
                 >
-                  رمز امنیتی را وارد کنید{' '}
+                  {paymentLocalization.aboutSC}
                 </Typography>
               </Box>
               <TextField
@@ -210,7 +275,7 @@ function PaymentForm() {
                 margin="normal"
                 required
                 inputProps={{ maxLength: 5, style: { textAlign: 'right' } }}
-                sx={{ width: '50%', mx: 15 }}
+                sx={{ width: '50%', ml: 23 }}
               />
             </Box>
             <Box
@@ -218,17 +283,17 @@ function PaymentForm() {
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center',
-                mx: 2,
+                mb: 2,
               }}
             >
-              <Box sx={{ mr: 1 }}>
+              <Box>
                 <Typography
                   variant="h5"
                   gutterBottom
                   align="left"
                   sx={{ fontSize: '18px', fontWeight: 900 }}
                 >
-                  ایمیل{' '}
+                  {paymentLocalization.email}
                 </Typography>
                 <Typography
                   variant="h5"
@@ -236,7 +301,7 @@ function PaymentForm() {
                   align="left"
                   sx={{ fontSize: '14px', color: 'gray' }}
                 >
-                  لطفا ایمیل معتبر وارد کنید (اختیاری){' '}
+                  {paymentLocalization.aboutEmail}
                 </Typography>
               </Box>
               <TextField
@@ -246,7 +311,7 @@ function PaymentForm() {
                 margin="normal"
                 required
                 inputProps={{ style: { textAlign: 'left' } }}
-                sx={{ width: '50%', mx: 14 }}
+                sx={{ width: '50%', ml: 15 }}
               />
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -261,29 +326,31 @@ function PaymentForm() {
                   mr: 2,
                   fontWeight: 900,
                   borderRadius: '20px',
-                  ':hover': { backgroundColor: 'green', color: 'white' },
+                  ':hover': { backgroundColor: 'darkgreen', color: 'white' },
                 }}
+                // onClick={handleOkClick}
               >
-                پرداخت
+                {paymentLocalization.payment}
               </Button>
               <Button
                 variant="contained"
-                fullWidth
                 sx={{
                   my: 2,
                   width: '15%',
                   borderRadius: '20px',
                   backgroundColor: 'red',
                   fontWeight: 900,
-                  ':hover': { backgroundColor: 'red', color: 'white' },
+                  ':hover': { backgroundColor: 'darkred', color: 'white' },
                 }}
               >
-                انصراف
+                {paymentLocalization.optOut}
               </Button>
             </Box>
           </Box>
         </Box>
-        <Box sx={{ borderRadius: 2, boxShadow: 3, width: '30%' }}>
+        <Box
+          sx={{ borderRadius: 2, boxShadow: 3, width: '30%', height: '50vh' }}
+        >
           <Box>
             <Typography
               variant="h5"
@@ -291,46 +358,63 @@ function PaymentForm() {
               align="left"
               sx={{
                 backgroundColor: 'gray',
-                p: 1,
+                py: 1,
+                px: 2,
                 borderRadius: '10px 0 20px 0',
-                width: '37%',
+                width: '30%',
+                color: 'white',
+                fontSize: '16px',
               }}
             >
-              اطلاعات پذیرنده{' '}
+              {paymentLocalization.receiverInformation}
             </Typography>
           </Box>
-          <Box>
-            <Box>
-              <Typography>نام پذیرنده:</Typography>
+          <Box sx={{ mx: 2 }}>
+            <Box sx={{ display: 'flex', gap: 1, my: 2 }}>
+              <Typography sx={{ fontWeight: 600 }}>
+                {paymentLocalization.receiverName}
+              </Typography>
               <Typography sx={{ fontSize: '16px', fontWeight: 900 }}>
-                اورانوس
+                {paymentLocalization.uranos}
               </Typography>
             </Box>
-            <Box>
-              <Typography>شماره پذیرنده:</Typography>
+            <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+              <Typography sx={{ fontWeight: 600 }}>
+                {paymentLocalization.receiverPhone}
+              </Typography>
               <Typography sx={{ fontSize: '16px', fontWeight: 900 }}>
                 285950
               </Typography>
             </Box>
-            <Box>
-              <Typography>شماره ترمینال:</Typography>
+            <Box sx={{ display: 'flex', gap: 1, mb: 1, my: 2 }}>
+              <Typography sx={{ fontWeight: 600 }}>
+                {paymentLocalization.terminalNumber}
+              </Typography>
               <Typography sx={{ fontSize: '16px', fontWeight: 900 }}>
                 639836
               </Typography>
             </Box>
-            <Box>
-              <Typography>آدرس وب سایت:</Typography>
+            <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+              <Typography sx={{ fontWeight: 600 }}>
+                {paymentLocalization.addressWeb}
+              </Typography>
               <Typography
                 sx={{ fontSize: '16px', fontWeight: 900, color: 'blue' }}
               >
                 http://www.uranus.com
               </Typography>
             </Box>
-            <Box>
-              <Typography sx={{ color: 'green' }}>مبلغ قابل پرداخت:</Typography>
+            <Box sx={{ my: 2, display: 'flex', gap: 1 }}>
               <Typography
-                sx={{ fontSize: '16px', fontWeight: 900, color: 'blue' }}
-              ></Typography>
+                sx={{ fontSize: '20px', color: 'green', fontWeight: 900 }}
+              >
+                {paymentLocalization.amountPayable}
+              </Typography>
+              <Typography
+                sx={{ fontSize: '20px', fontWeight: 900, color: 'green' }}
+              >
+                {totalPrice}
+              </Typography>
             </Box>
           </Box>
         </Box>

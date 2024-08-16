@@ -9,6 +9,7 @@ const theme = createTheme({
       'BlinkMacSystemFont',
       '"Segoe UI"',
       'Roboto',
+      'Iransans',
       '"Helvetica Neue"',
       'Arial',
       'sans-serif',

@@ -1,7 +1,6 @@
 import SingleCard from '@/components/single-card';
 import { Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import React from 'react';
 import MainLayout from '@/layout/main-layout';
 
 export function Slug() {

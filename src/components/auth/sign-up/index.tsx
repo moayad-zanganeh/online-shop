@@ -90,14 +90,16 @@ export default function SignUp({ setSearchParams }: SetSearchParamsType) {
         <CssBaseline />
         <Paper elevation={10} sx={{ padding: 3, borderRadius: '10px', mt: 8 }}>
           <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-            <Card sx={{ maxWidth: 150, boxShadow: 'none' }}>
-              <CardMedia
-                component="img"
-                height="140"
-                image="https://www.digikala.com/statics/img/svg/logo.svg"
-                alt="Uranus-Image"
-              />
-            </Card>
+            <Box
+              sx={{
+                color: 'red',
+                fontSize: '28px',
+                fontWeight: 900,
+                maxWidth: 150,
+              }}
+            >
+              Uranus
+            </Box>
           </Box>
           <Typography component="h1" variant="h4" sx={{ textAlign: 'left' }}>
             {authLocalization.signup}

@@ -9,7 +9,7 @@ export const fetchProduct = async () => {
 
 export const fetchProductById = async (id: string) => {
   const { data } = await axios.get(`http://localhost:8000/api/products/${id}`);
-  console.log(data);
+  
   return data;
 };
 

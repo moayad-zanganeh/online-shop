@@ -29,6 +29,7 @@ import {
   useFetchProduct,
 } from '@/api/products/products.querys';
 import { headCells, rows as generateRows } from '@/constants/table/table';
+import { brandsMobile, tableLocalization } from '@/constants/localization';
 
 const style = {
   position: 'absolute',
@@ -86,23 +87,19 @@ function SimpleTable() {
   const handleEdit = (product: any) => {
     setOpenEdit(true);
     setProductToEdit(product);
-    console.log('hi');
     setEditId(product._id);
   };
 
   const handleSaveChanges = () => {
     if (editProductData) {
-      console.log(editProductData);
       const FD = new FormData();
       Object.entries(editProductData).forEach(([key, value]) => {
         FD.append(key, value as string);
       });
-      console.log('click');
       editProduct({ id: editId, productData: FD });
     }
   };
   const addProducts = () => {
-    console.log(addProductData);
     if (addProductData) {
       const FD = new FormData();
       Object.entries(addProductData).forEach(([key, value]) => {
@@ -129,7 +126,7 @@ function SimpleTable() {
           m: 2,
         }}
       >
-        ثبت محصول
+        {tableLocalization.ProductRegistration}
       </Button>
       <Modal
         open={openAdd}
@@ -139,12 +136,12 @@ function SimpleTable() {
       >
         <Box sx={style}>
           <Typography id="modal-title" variant="h6" component="h2">
-            افزودن محصول
+            {tableLocalization.addProduct}
           </Typography>
 
           <Box sx={{ mt: 2 }}>
             <TextField
-              label="نام محصول"
+              label={tableLocalization.nameProduct}
               variant="outlined"
               fullWidth
               onChange={(e) =>
@@ -156,27 +153,29 @@ function SimpleTable() {
               sx={{ mb: 2 }}
             />
             <FormControl sx={{ width: '100%' }} margin="normal">
-              <InputLabel sx={{ fontWeight: '900' }}>برند</InputLabel>
+              <InputLabel sx={{ fontWeight: '900' }}>
+                {tableLocalization.brand}
+              </InputLabel>
               <Select value={category} onChange={handleCategoryChange}>
                 <MenuItem dir="rtl" value="">
-                  برند
+                  {tableLocalization.brand}
                 </MenuItem>
                 <MenuItem dir="rtl" value="apple">
-                  آیفون
+                  {brandsMobile.apple}
                 </MenuItem>
                 <MenuItem dir="rtl" value="samsung">
-                  سامسونگ
+                  {brandsMobile.sumsung}
                 </MenuItem>
                 <MenuItem dir="rtl" value="xiaomi">
-                  شیائومی
+                  {brandsMobile.xiaomi}
                 </MenuItem>
                 <MenuItem dir="rtl" value="honor">
-                  آنر
+                  {brandsMobile.honor}
                 </MenuItem>
               </Select>
             </FormControl>
             <TextField
-              label="قیمت"
+              label={tableLocalization.price}
               variant="outlined"
               fullWidth
               type="text"
@@ -189,7 +188,7 @@ function SimpleTable() {
               sx={{ mb: 2 }}
             />
             <TextField
-              label="توضیحات کوتاه"
+              label={tableLocalization.description}
               variant="outlined"
               fullWidth
               type="text"
@@ -202,7 +201,7 @@ function SimpleTable() {
               sx={{ mb: 2 }}
             />
             <TextField
-              label="میزان موجودی در انبار"
+              label={tableLocalization.TheAmountOfStockInTheWarehouse}
               variant="outlined"
               fullWidth
               type="text"
@@ -228,13 +227,13 @@ function SimpleTable() {
               }}
               sx={{ mb: 2 }}
             />
-            //img yadet nare src ham product.image o ina bashe
+
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Button variant="contained" color="primary" onClick={addProducts}>
-                ثبت
+                {tableLocalization.registration}
               </Button>
               <Button variant="outlined" onClick={handleClose}>
-                لغو
+                {tableLocalization.cancel}
               </Button>
             </Box>
           </Box>
@@ -273,15 +272,16 @@ function SimpleTable() {
                   </TableCell>
                   <TableCell>{item.description}</TableCell>
                   <TableCell>{item.brand}</TableCell>
-                  <TableCell>{item.price}</TableCell>
+                  <TableCell>{item.price.toLocaleString()}</TableCell>
                   <TableCell>
                     <Button
                       variant="contained"
                       color="primary"
                       startIcon={<EditIcon />}
                       onClick={() => handleEdit(item)}
+                      sx={{ my: 1, width: '55%' }}
                     >
-                      ویرایش
+                      {tableLocalization.edit}
                     </Button>
                     <Button
                       variant="contained"
@@ -292,7 +292,7 @@ function SimpleTable() {
                         setDeleteId(item._id);
                       }}
                     >
-                      حذف
+                      {tableLocalization.delete}
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -318,10 +318,10 @@ function SimpleTable() {
       >
         <Box sx={style}>
           <Typography id="modal-title" variant="h6" component="h2">
-            حذف محصول
+            {tableLocalization.deleteProduct}
           </Typography>
           <Typography id="modal-description" sx={{ mt: 2 }}>
-            آیا مطمئن هستید که می‌خواهید آیتم شماره {deleteId} را حذف کنید؟
+            {tableLocalization.areYouSure}
           </Typography>
           <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
             <Button
@@ -332,10 +332,10 @@ function SimpleTable() {
                 handleClose();
               }}
             >
-              تایید
+              {tableLocalization.confirmation}
             </Button>
             <Button variant="outlined" onClick={handleClose}>
-              لغو
+              {tableLocalization.cancel}
             </Button>
           </Box>
         </Box>
@@ -349,12 +349,12 @@ function SimpleTable() {
       >
         <Box sx={style}>
           <Typography id="modal-title" variant="h6" component="h2">
-            ویرایش محصول
+            {tableLocalization.editProduct}
           </Typography>
           {productToEdit && (
             <Box sx={{ mt: 2 }}>
               <TextField
-                label="نام محصول"
+                label={tableLocalization.nameProduct}
                 variant="outlined"
                 fullWidth
                 defaultValue={productToEdit.name}
@@ -367,7 +367,7 @@ function SimpleTable() {
                 sx={{ mb: 2 }}
               />
               <TextField
-                label="قیمت"
+                label={tableLocalization.price}
                 variant="outlined"
                 fullWidth
                 type="text"
@@ -381,7 +381,7 @@ function SimpleTable() {
                 sx={{ mb: 2 }}
               />
               <TextField
-                label="موجودی محصول"
+                label={tableLocalization.quantity}
                 variant="outlined"
                 fullWidth
                 type="text"
@@ -395,7 +395,7 @@ function SimpleTable() {
                 sx={{ mb: 2 }}
               />
               <TextField
-                label="توضیحات کوتاه"
+                label={tableLocalization.description}
                 variant="outlined"
                 fullWidth
                 type="text"
@@ -409,7 +409,7 @@ function SimpleTable() {
                 sx={{ mb: 2 }}
               />
               <TextField
-                label="برند"
+                label={tableLocalization.brand}
                 variant="outlined"
                 fullWidth
                 type="text"
@@ -436,17 +436,17 @@ function SimpleTable() {
                 }}
                 sx={{ mb: 2 }}
               />
-              //img yadet nare src ham product.image o ina bashe
+
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Button
                   variant="contained"
                   color="primary"
                   onClick={handleSaveChanges}
                 >
-                  ذخیره تغییرات
+                  {tableLocalization.saveChanges}
                 </Button>
                 <Button variant="outlined" onClick={handleClose}>
-                  لغو
+                  {tableLocalization.cancel}
                 </Button>
               </Box>
             </Box>

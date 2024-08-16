@@ -12,16 +12,24 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { aboutUranus } from '@/constants/aboutUranus';
 import { abouts } from '@/constants/about';
-
 import { baUranus } from '@/constants/baUranus';
 import { buyingGuideFromUranus } from '@/constants/buyingGuideFromUranus';
 import { customerServices } from '@/constants/customerServices';
+import { footerLocalization } from '@/constants/localization';
 
 const previewText = aboutUranus.text.slice(0, 300);
 
 const Footer = () => {
   const [showMore, setShowMore] = useState(false);
   const toggleShowMore = () => setShowMore(!showMore);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <Box
       component="footer"
@@ -51,7 +59,7 @@ const Footer = () => {
               }}
             >
               <Typography variant="h3" sx={{ color: 'red' }}>
-                اورانوس{' '}
+                {footerLocalization.uranus}{' '}
               </Typography>
               <Button
                 sx={{
@@ -61,15 +69,20 @@ const Footer = () => {
                   mx: '1%',
                   px: '1%',
                 }}
+                onClick={scrollToTop}
               >
-                بازگشت به بالا
-                <KeyboardArrowUpIcon />
+                {footerLocalization.backToUp} <KeyboardArrowUpIcon />
               </Button>
             </Box>
             <Box sx={{ display: 'flex', gap: '1%' }}>
               {abouts.map((about) => (
                 <Typography
-                  sx={{ fontSize: '18px', color: '#3f4064', my: '2%' }}
+                  sx={{
+                    fontSize: '18px',
+                    color: '#3f4064',
+                    my: '2%',
+                  }}
+                  key={about}
                 >
                   {about}
                 </Typography>
@@ -85,37 +98,49 @@ const Footer = () => {
             >
               <Box>
                 <Typography variant="h5" sx={{ color: 'black' }}>
-                  با اورانوس
+                  {footerLocalization.baUranus}{' '}
                 </Typography>
                 {baUranus.map((bUranus) => (
-                  <Typography variant="h6" sx={{ color: '#81858B', my: '3%' }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ color: '#81858B', my: '3%', cursor: 'pointer' }}
+                    key={bUranus}
+                  >
                     {bUranus}
                   </Typography>
                 ))}
               </Box>
               <Box>
                 <Typography variant="h5" sx={{ color: 'black' }}>
-                  خدمات مشتریان{' '}
+                  {footerLocalization.customerService}{' '}
                 </Typography>
                 {customerServices.map((cservicsed) => (
-                  <Typography variant="h6" sx={{ color: '#81858B', my: '3%' }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ color: '#81858B', my: '3%', cursor: 'pointer' }}
+                    key={cservicsed}
+                  >
                     {cservicsed}
                   </Typography>
                 ))}
               </Box>
               <Box>
                 <Typography variant="h5" sx={{ color: 'black' }}>
-                  راهنمای خرید از اورانوس
+                  {footerLocalization.buyingGuideFromUranus}{' '}
                 </Typography>
                 {buyingGuideFromUranus.map((bgfuranus) => (
-                  <Typography variant="h6" sx={{ color: '#81858B', my: '3%' }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ color: '#81858B', my: '3%', cursor: 'pointer' }}
+                    key={bgfuranus}
+                  >
                     {bgfuranus}
                   </Typography>
                 ))}
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', mx: '5%' }}>
                 <Typography variant="h5" sx={{ color: 'black' }}>
-                  همراه ما باشید!
+                  {footerLocalization.beWithUs}{' '}
                 </Typography>
                 <Box
                   sx={{
@@ -129,6 +154,7 @@ const Footer = () => {
                     href="https://facebook.com"
                     sx={{
                       color: '#81858B',
+                      cursor: 'pointer',
                     }}
                   >
                     <Facebook sx={{ fontSize: '45px' }} />
@@ -137,6 +163,7 @@ const Footer = () => {
                     href="https://twitter.com"
                     sx={{
                       color: '#81858B',
+                      cursor: 'pointer',
                     }}
                   >
                     <Twitter sx={{ fontSize: '45px' }} />
@@ -145,6 +172,7 @@ const Footer = () => {
                     href="https://instagram.com"
                     sx={{
                       color: '#81858B',
+                      cursor: 'pointer',
                     }}
                   >
                     <Instagram sx={{ fontSize: '45px' }} />
@@ -153,14 +181,15 @@ const Footer = () => {
                     href="https://linkedin.com"
                     sx={{
                       color: '#81858B',
+                      cursor: 'pointer',
                     }}
                   >
-                    <LinkedIn sx={{ fontSize: '45px' }} />
+                    <LinkedIn sx={{ fontSize: '45px', cursor: 'pointer' }} />
                   </IconButton>
                 </Box>
                 <Box>
                   <Typography variant="h5" sx={{ color: 'black' }}>
-                    با ثبت ایمیل، از تخفیف ها باخبر شوید
+                    {footerLocalization.emailRegistration}{' '}
                   </Typography>
                   <Box sx={{ display: 'flex', width: '100%' }}>
                     <TextField
@@ -185,7 +214,7 @@ const Footer = () => {
                         height: '55px',
                       }}
                     >
-                      ثبت
+                      {footerLocalization.registration}
                     </Button>
                   </Box>
                 </Box>

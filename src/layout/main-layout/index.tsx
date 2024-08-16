@@ -1,8 +1,9 @@
 import { ReactNode, useEffect, useState } from 'react';
-import { Box, CircularProgress } from '@mui/material';
+import { Box } from '@mui/material';
 import Footer from './footer';
 import Header from './header';
 import { useUserStore } from '@/store/useUser';
+import { Loading } from '@/components/shared/loading';
 
 export default function MainLayout({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -18,14 +19,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
   return (
     <Box>
       {loading ? (
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          height="100vh"
-        >
-          <CircularProgress color="inherit" />
-        </Box>
+        <Loading />
       ) : (
         <Box>
           <Header user={user} />

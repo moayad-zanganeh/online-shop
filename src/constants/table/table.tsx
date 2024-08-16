@@ -90,7 +90,6 @@ export const headCells: readonly HeadCell[] = [
 ];
 
 export const rows = (productData: any) => {
-  console.log(productData);
   return productData?.data?.products?.map((product: any, index: number) => ({
     id: index + 1,
     name: product.name,

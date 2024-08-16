@@ -14,6 +14,8 @@ import { useFetchSingleProduct } from '@/api/products/products.querys';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useCartStore from '@/store/useCartStore';
+import { Loading } from '../shared/loading';
+import { singleCardLocalization } from '@/constants/localization';
 
 const SingleCard = ({ productId }) => {
   const { data, error, isLoading } = useFetchSingleProduct(productId);
@@ -22,7 +24,7 @@ const SingleCard = ({ productId }) => {
   const addToCart = useCartStore((state) => state.addToCart);
 
   if (isLoading) {
-    return <Typography>Loading...</Typography>;
+    return <Loading />;
   }
 
   if (error) {
@@ -76,9 +78,9 @@ const SingleCard = ({ productId }) => {
   };
 
   return (
-    <Box sx={{ display: 'flex', mx: 3 }}>
+    <Box sx={{ display: 'flex' }}>
       <ToastContainer />
-      <Card sx={{ display: 'flex', width: '100%' }}>
+      <Card sx={{ display: 'flex', width: '100%', boxShadow: 'none', my: 10 }}>
         <CardMedia
           component="img"
           height="300"
@@ -100,7 +102,7 @@ const SingleCard = ({ productId }) => {
             component="div"
             sx={{ fontSize: '18px', color: 'gray', mt: 3 }}
           >
-            توضیحات کوتاه : {product.description}
+            {singleCardLocalization.shortDescription} {product.description}
           </Typography>
           <Typography
             gutterBottom
@@ -108,7 +110,7 @@ const SingleCard = ({ productId }) => {
             component="div"
             sx={{ fontSize: '18px', color: 'gray', my: 3 }}
           >
-            برند : {product.brand}
+            {singleCardLocalization.brand} {product.brand}
           </Typography>
           <Typography
             gutterBottom
@@ -116,7 +118,7 @@ const SingleCard = ({ productId }) => {
             component="div"
             sx={{ fontSize: '18px', color: 'gray' }}
           >
-            میزان موجودی در انبار : {product.quantity}
+            {singleCardLocalization.warehouseStock} {product.quantity}
           </Typography>
         </CardContent>
 
@@ -135,10 +137,10 @@ const SingleCard = ({ productId }) => {
         >
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography gutterBottom component="span" sx={{ fontSize: '20px' }}>
-              فروشنده
+              {singleCardLocalization.seller}{' '}
             </Typography>
             <Typography gutterBottom component="span" sx={{ fontSize: '20px' }}>
-              13 فروشنده دیگر
+              {singleCardLocalization.otherSeller}{' '}
             </Typography>
           </Box>
           <Box
@@ -149,7 +151,7 @@ const SingleCard = ({ productId }) => {
             }}
           >
             <Typography gutterBottom component="span" sx={{ fontSize: '20px' }}>
-              اورانوس{' '}
+              {singleCardLocalization.uranos}{' '}
             </Typography>
             <Box>
               <Typography
@@ -157,7 +159,7 @@ const SingleCard = ({ productId }) => {
                 component="span"
                 sx={{ fontSize: '17px', mx: 1 }}
               >
-                عملکرد{' '}
+                {singleCardLocalization.performance}{' '}
               </Typography>
               <Typography
                 gutterBottom
@@ -165,7 +167,7 @@ const SingleCard = ({ productId }) => {
                 component="span"
                 sx={{ fontSize: '17px', color: 'green' }}
               >
-                عالی{' '}
+                {singleCardLocalization.perfect}{' '}
               </Typography>
             </Box>
           </Box>
@@ -186,7 +188,7 @@ const SingleCard = ({ productId }) => {
                 my: 3,
               }}
             >
-              {product.price.toLocaleString('fa')} تومان
+              {product.price.toLocaleString()} {singleCardLocalization.toman}
             </Typography>
 
             {isAddedToCart ? (
@@ -238,7 +240,7 @@ const SingleCard = ({ productId }) => {
                       ':hover': { backgroundColor: '#ee384e', color: 'white' },
                     }}
                   >
-                    ثبت سفارش
+                    {singleCardLocalization.orderRegistration}{' '}
                   </Button>
                 </Box>
               </>
@@ -253,7 +255,7 @@ const SingleCard = ({ productId }) => {
                   ':hover': { backgroundColor: '#ee384e', color: 'white' },
                 }}
               >
-                افزودن به سبد خرید
+                {singleCardLocalization.addToCart}{' '}
               </Button>
             )}
           </Box>

@@ -17,6 +17,7 @@ import { grey } from '@mui/material/colors';
 import { useEffect } from 'react';
 import { useUserStore } from '@/store/useUser';
 import { useForm } from 'react-hook-form';
+import { checkoutLocalization } from '@/constants/localization';
 
 const FormGrid = styled(Grid)(() => ({
   display: 'flex',
@@ -84,13 +85,13 @@ export default function Checkout() {
             borderRadius: 5,
           }}
         >
-          فرم تکمیل اطلاعات شخصی
+          {checkoutLocalization.formUser}{' '}
         </Typography>
         <Box component="form" dir="rtl" onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={3} sx={{ direction: 'ltr' }}>
             <FormGrid item xs={12} md={6}>
               <FormLabel htmlFor="first-name" required>
-                {'نام'}
+                {checkoutLocalization.name}
               </FormLabel>
               <TextField
                 size="small"
@@ -103,7 +104,7 @@ export default function Checkout() {
             </FormGrid>
             <FormGrid item xs={12} md={6}>
               <FormLabel htmlFor="last-name" required>
-                {'نام خانوادگی'}
+                {checkoutLocalization.lastName}
               </FormLabel>
               <TextField
                 id="lastName"
@@ -116,13 +117,13 @@ export default function Checkout() {
             </FormGrid>
             <FormGrid item xs={12} md={6}>
               <FormLabel htmlFor="email" required>
-                {'پست الکرونیکی'}
+                {checkoutLocalization.email}
               </FormLabel>
               <TextField id="email" size="small" fullWidth type="email" />
             </FormGrid>
             <FormGrid item xs={12} md={6}>
               <FormLabel htmlFor="phone-number" required>
-                {'شماره تلفن همراه'}
+                {checkoutLocalization.phoneNumber}
               </FormLabel>
               <TextField
                 id="phone-number"
@@ -135,7 +136,7 @@ export default function Checkout() {
             </FormGrid>
             <FormGrid item xs={12}>
               <FormLabel htmlFor="address1" required>
-                {'آدرس'}
+                {checkoutLocalization.address}
               </FormLabel>
               <TextField
                 id="address"
@@ -148,25 +149,25 @@ export default function Checkout() {
             </FormGrid>
             <FormGrid item xs={6}>
               <FormLabel htmlFor="date-of-registration" required>
-                {'استان'}
+                {checkoutLocalization.state}
               </FormLabel>
               <TextField id="state" size="small" fullWidth type="text" />
             </FormGrid>
             <FormGrid item xs={6}>
               <FormLabel htmlFor="date-of-registration" required>
-                {'شهر'}
+                {checkoutLocalization.city}
               </FormLabel>
               <TextField id="city" size="small" fullWidth type="text" />
             </FormGrid>
             <FormGrid item xs={6}>
               <FormLabel htmlFor="date-of-registration" required>
-                {'کد پستی'}
+                {checkoutLocalization.postalCode}
               </FormLabel>
               <TextField id="postalCode" size="small" fullWidth type="text" />
             </FormGrid>
             <FormGrid item xs={6}>
               <FormLabel htmlFor="date-of-registration" required>
-                {'تاریخ ثبت'}
+                {checkoutLocalization.date}
               </FormLabel>
               <TextField
                 defaultValue={today}
@@ -188,7 +189,7 @@ export default function Checkout() {
                   ':hover': { backgroundColor: '#f01436', color: 'white' },
                 }}
               >
-                ذخیره و پرداخت
+                {checkoutLocalization.saveAndPay}
               </Button>
             </FormGrid>
           </Grid>

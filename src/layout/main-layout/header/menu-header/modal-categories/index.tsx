@@ -1,6 +1,5 @@
 import { brandsMobile, modalLocalization } from '@/constants/localization';
 import { Box, Typography } from '@mui/material';
-import React from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { MobileBrandsArr } from '@/constants/mobileBrands';
 import StayCurrentPortraitIcon from '@mui/icons-material/StayCurrentPortrait';
@@ -21,25 +20,25 @@ function ModalCategories({
       onMouseLeave={handleMouseLeave}
       sx={{
         backgroundColor: 'white',
-        width: '70%',
+        width: '30%',
         display: open ? 'block' : 'none',
         position: 'absolute',
-        top: '17%',
+        top: '19%',
         left: '2%',
-        color: 'black',
         zIndex: 1300,
+        boxShadow: 5,
+        borderRadius: '10px',
+        color: '#3e4245fa',
       }}
     >
       <Box sx={{ display: 'flex' }}>
         <Box
           sx={{
-            width: '15%',
-            // borderRight: 'solid 1px #b5b5b5',
+            width: '35%',
             display: 'flex',
             px: '2%',
-
-            backgroundColor: '#ee384ecc',
-            // my: '2%',
+            mr: '2%',
+            backgroundColor: '#bfddf3fa',
             alignItems: 'center',
             height: '50px',
             borderRadius: '5px',
@@ -68,7 +67,7 @@ function ModalCategories({
             }}
           >
             <Typography sx={{ fontSize: '20px' }}>
-              {brandsMobile.differentbrands}
+              {brandsMobile.differentBrands}
             </Typography>
             <ArrowBackIosIcon sx={{ fontSize: '17px' }} />
           </Box>
@@ -82,8 +81,10 @@ function ModalCategories({
             }}
           >
             {MobileBrandsArr.map((mobilebrands) => (
-              <Typography sx={{ my: '5%', ':hover': { color: 'red' } }}>
-                {brandsMobile.smartphone} {mobilebrands}
+              <Typography
+                sx={{ my: '5%', ':hover': { color: 'red' }, cursor: 'pointer' }}
+              >
+                {brandsMobile.smartPhone} {mobilebrands}
               </Typography>
             ))}
           </Box>

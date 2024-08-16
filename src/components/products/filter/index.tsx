@@ -9,6 +9,7 @@ import {
   Slider,
   Typography,
 } from '@mui/material';
+import { brandsMobile, filterLocalization } from '@/constants/localization';
 
 const Filter = ({
   setParams,
@@ -63,10 +64,10 @@ const Filter = ({
   return (
     <Box
       sx={{
-        width: '45%',
+        width: '65%',
         display: 'flex',
         justifyContent: 'left',
-        ml: '2%',
+        ml: '1%',
       }}
     >
       <Box
@@ -74,7 +75,7 @@ const Filter = ({
           padding: 2,
           borderRadius: 2,
           width: '100%',
-          boxShadow: '0 4px 8px rgba(0,0,0,0.4)',
+          boxShadow: '0 4px 6px rgba(0,0,0,0.2)',
           boxSizing: 'border-box',
         }}
         dir="rtl"
@@ -84,48 +85,52 @@ const Filter = ({
           gutterBottom
           sx={{ textAlign: 'center', fontWeight: 'bold' }}
         >
-          فیلتر محصولات
+          {filterLocalization.filterProduct}{' '}
         </Typography>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
           <FormControl sx={{ width: '100%' }} margin="normal">
-            <InputLabel sx={{ fontWeight: '900' }}>برند</InputLabel>
+            <InputLabel sx={{ fontWeight: '900' }}>
+              {brandsMobile.brand}
+            </InputLabel>
             <Select value={category} onChange={handleCategoryChange}>
               <MenuItem dir="rtl" value="">
-                برند
+                {brandsMobile.brand}
               </MenuItem>
               <MenuItem dir="rtl" value="apple">
-                آیفون
+                {brandsMobile.apple}
               </MenuItem>
               <MenuItem dir="rtl" value="samsung">
-                سامسونگ
+                {brandsMobile.sumsung}
               </MenuItem>
               <MenuItem dir="rtl" value="xiaomi">
-                شیائومی
+                {brandsMobile.xiaomi}
               </MenuItem>
               <MenuItem dir="rtl" value="honor">
-                آنر
+                {brandsMobile.honor}
               </MenuItem>
             </Select>
           </FormControl>
           <FormControl sx={{ width: '100%' }} margin="normal">
-            <InputLabel sx={{ fontWeight: '900' }}>قیمت</InputLabel>
+            <InputLabel sx={{ fontWeight: '900' }}>
+              {filterLocalization.price}
+            </InputLabel>
             <Select value={sort} onChange={handleSortChange}>
               <MenuItem dir="rtl" value="">
-                پیشفرض
+                {filterLocalization.default}
               </MenuItem>
               <MenuItem dir="rtl" value="desc">
-                از بیشترین به کمترین
+                {filterLocalization.fromMostToLeast}{' '}
               </MenuItem>
               <MenuItem dir="rtl" value="asc">
-                از کمترین به بیشترین
+                {filterLocalization.fromLeastToMost}{' '}
               </MenuItem>
             </Select>
           </FormControl>
         </Box>
 
         <Typography gutterBottom sx={{ mt: '15%', fontWeight: '900' }}>
-          بازه قیمتی
+          {filterLocalization.priceRange}{' '}
         </Typography>
 
         <Slider
@@ -146,7 +151,7 @@ const Filter = ({
             onClick={handleSubmit}
             sx={{ marginTop: 2, backgroundColor: '#ee384e' }}
           >
-            فیلتر
+            {filterLocalization.filter}
           </Button>
 
           <Button
@@ -155,7 +160,7 @@ const Filter = ({
             onClick={handleReset}
             sx={{ marginTop: 2 }}
           >
-            پاک کردن همه
+            {filterLocalization.clearAll}
           </Button>
         </Box>
       </Box>

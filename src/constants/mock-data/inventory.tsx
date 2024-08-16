@@ -1,4 +1,4 @@
-import { Input } from '@mui/material';
+import { Box, Input } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import { ProductsType } from '@/types/inventory';
 
@@ -6,12 +6,10 @@ const columns = ({ changeInventory, changePrice }: any): GridColDef[] => [
   {
     field: 'name',
     headerName: 'اسم محصول',
-    width: 100,
+    width: 550,
     sortable: true,
     headerAlign: 'center',
-    renderCell: (params) => (
-      <div style={{ textAlign: 'center', width: '100%' }}>{params.value}</div>
-    ),
+    renderCell: (params) => <Box style={{ width: '100%' }}>{params.value}</Box>,
   },
   {
     field: 'inventory',
@@ -22,7 +20,7 @@ const columns = ({ changeInventory, changePrice }: any): GridColDef[] => [
     renderCell: (params) => (
       <Input
         type="text"
-        sx={{ textAlign: 'center', width: '20%' }}
+        sx={{ textAlign: 'center', width: '30%', mx: 10 }}
         value={params.value}
         onChange={(e) => changeInventory(params.id, e.target.value)}
       />
@@ -51,7 +49,7 @@ const createRows = (inventory: ProductsType) => {
     id: index,
     name: product.name,
     inventory: product.quantity,
-    price: product.price,
+    price: product.price.toLocaleString(),
   }));
 };
 

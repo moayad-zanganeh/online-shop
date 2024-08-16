@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, CardMedia, IconButton, Typography } from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
@@ -6,7 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { grey, red } from '@mui/material/colors';
 import useCartStore from '@/store/useCartStore';
 
-const CardOfCart = ({ product }) => {
+const CardOfCart = ({ product }: any) => {
   const { name, price, image, quantity, _id } = product;
 
   const removeProduct = useCartStore((state) => state.removeProduct);
@@ -23,11 +22,9 @@ const CardOfCart = ({ product }) => {
   };
 
   const handleRemove = () => {
-    console.log('Removing product with ID:', _id);
     removeProduct(_id);
   };
 
-  // محاسبه قیمت نهایی
   const totalPrice = price * quantity;
 
   return (
@@ -67,7 +64,7 @@ const CardOfCart = ({ product }) => {
             sx={{ mt: 5, position: 'absolute', bottom: 10, right: 20 }}
           >
             {totalPrice !== undefined && totalPrice !== null
-              ? totalPrice.toLocaleString('fa')
+              ? totalPrice.toLocaleString()
               : 'نامشخص'}{' '}
             تومان
           </Typography>

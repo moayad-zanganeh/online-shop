@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Fade, Menu, MenuItem } from '@mui/material';
 import Link from 'next/link';
+import { headerAdminLocalization } from '@/constants/localization';
 
 export default function HeaderAadminDashboard() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -46,21 +47,25 @@ export default function HeaderAadminDashboard() {
               TransitionComponent={Fade}
             >
               <MenuItem sx={{ fontSize: '20px' }} onClick={handleClose}>
-                <Link href={'/'}>خانه</Link>
+                <Link href={'/'}>{headerAdminLocalization.home}</Link>
               </MenuItem>
               <MenuItem sx={{ fontSize: '20px' }} onClick={handleClose}>
-                <Link href={'/'}>خروج</Link>
+                <Link href={'/'}>{headerAdminLocalization.logout}</Link>
               </MenuItem>
               <MenuItem sx={{ fontSize: '20px' }} onClick={handleClose}>
                 <Link href={'/admin-dashboard/product-inventory'}>
-                  موجودی و قیمت
+                  {headerAdminLocalization.inventory}{' '}
                 </Link>
               </MenuItem>
               <MenuItem sx={{ fontSize: '20px' }} onClick={handleClose}>
-                <Link href={'/admin-dashboard/order'}>سفارشات</Link>
+                <Link href={'/admin-dashboard/order'}>
+                  {headerAdminLocalization.order}
+                </Link>
               </MenuItem>
               <MenuItem sx={{ fontSize: '20px' }} onClick={handleClose}>
-                <Link href={'#'}>وضعیت تحویل سفارش</Link>
+                <Link href={'#'}>
+                  {headerAdminLocalization.orderDeliveryStatus}
+                </Link>
               </MenuItem>
             </Menu>
             <Typography
@@ -68,7 +73,7 @@ export default function HeaderAadminDashboard() {
               component="div"
               sx={{ flexGrow: 1, fontSize: '23px' }}
             >
-              داشبورد
+              {headerAdminLocalization.dashboard}
             </Typography>
           </Box>
         </Toolbar>

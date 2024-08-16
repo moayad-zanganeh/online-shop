@@ -11,6 +11,8 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useFetchProduct } from '@/api/products/products.querys';
+import { Loading } from '@/components/shared/loading';
+import { cardLocalization } from '@/constants/localization';
 
 const Cards = ({ filterParams }) => {
   const { data: productAll, error, isLoading } = useFetchProduct();
@@ -19,7 +21,7 @@ const Cards = ({ filterParams }) => {
   const productsPerPage = 9;
 
   if (isLoading) {
-    return <Typography>Loading...</Typography>;
+    return <Loading />;
   }
 
   if (error) {
@@ -88,12 +90,20 @@ const Cards = ({ filterParams }) => {
             <Card
               sx={{
                 width: 300,
-                height: '500px',
+                height: '400px',
                 margin: 'auto',
+                position: 'relative',
               }}
               onClick={() => handleCardClick(product.id)}
             >
-              <CardActionArea sx={{ height: '100%' }}>
+              <CardActionArea
+                sx={{
+                  height: '100%',
+                  display: 'flex',
+                  justifyContent: 'space-around',
+                  flexDirection: 'column',
+                }}
+              >
                 <CardMedia
                   component="img"
                   image={
@@ -102,11 +112,11 @@ const Cards = ({ filterParams }) => {
                       : '/placeholder.jpg'
                   }
                   alt={product.name}
-                  sx={{ mx: 'auto', width: '100%' }}
+                  sx={{ mx: 'auto', width: '60%' }}
                 />
                 <CardContent>
                   <Typography
-                    sx={{ fontSize: '20px' }}
+                    sx={{ fontSize: '20px', mb: 5 }}
                     gutterBottom
                     variant="h5"
                     component="div"
@@ -118,12 +128,14 @@ const Cards = ({ filterParams }) => {
                   variant="body2"
                   color="text.secondary"
                   sx={{
-                    fontSize: '20px',
+                    fontSize: '18px',
                     textAlign: 'right',
-                    mx: 2,
+                    position: 'absolute',
+                    bottom: 5,
+                    right: 10,
                   }}
                 >
-                  {product.price} تومان
+                  {product.price.toLocaleString()} {cardLocalization.toman}
                 </Typography>
               </CardActionArea>
             </Card>

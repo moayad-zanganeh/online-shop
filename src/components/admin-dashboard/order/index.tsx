@@ -1,115 +1,77 @@
-// import { useState } from 'react';
-// import {
-//   Box,
-//   Button,
-//   Container,
-//   Modal,
-//   Paper,
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableContainer,
-//   TableHead,
-//   TableRow,
-//   Typography,
-// } from '@mui/material';
-// import {
-//   useEditOrderById,
-//   useGetAllOrders,
-//   useRemoveOrderById,
-// } from '@/api/order/order.query';
-// import { OrderType } from '@/types/order';
+import { useEffect, useState } from 'react';
+import {
+  Box,
+  Button,
+  Container,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
+import { useEditOrderById, useGetAllOrders } from '@/api/order/order.query';
 
-// const Orders = () => {
-//   const { data: orders, refetch } = useGetAllOrders();
-//   const [selectedOrder, setSelectedOrder] = useState<OrderType>();
-//   const [isModalOpen, setModalOpen] = useState(false);
-//   const { mutate: editOrder } = useEditOrderById();
-//   const { mutate: removeOrder } = useRemoveOrderById();
+const Orders = () => {
+  const { data } = useGetAllOrders();
+  const [selectedOrder, setSelectedOrder] = useState<Order>();
+  const [isModalOpen, setModalOpen] = useState(false);
+  const { mutate: editOrder } = useEditOrderById();
+  const [orders, setOrders] = useState<Order[]>([]);
+  useEffect(() => {
+    if (data) {
+      setOrders(data.data.orders);
+    }
+  }, [data]);
+  const handleEditClick = (order: Order) => {
+    setSelectedOrder(order);
+    setModalOpen(true);
+  };
 
-//   console.log(orders);
+  //   const handleDeliverOrder = (orderId: string) => {
+  //     removeOrder(orderId, {
+  //       onSuccess: () => {
+  //         refetch();
+  //       },
+  //     });
+  //   };
 
-//   const handleEditClick = (order: OrderType) => {
-//     setSelectedOrder(order);
-//     setModalOpen(true);
-//   };
+  const handleSaveChanges = () => {
+    if (selectedOrder) {
+      editOrder(selectedOrder._id, {
+        onSuccess: () => {
+          setModalOpen(false);
+        },
+      });
+    }
+  };
 
-//   const handleDeliverOrder = (orderId: string) => {
-//     removeOrder(orderId, {
-//       onSuccess: () => {
-//         refetch();
-//       },
-//     });
-//   };
+  return (
+    <Container>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>نام کاربر</TableCell>
+              <TableCell>مبلغ</TableCell>
+              <TableCell>تاریخ</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {orders?.map((order: Order) => (
+              <TableRow key={order._id}>
+                <TableCell>ORD-{order?.user.firstname}</TableCell>
+                <TableCell>{order?.totalPrice}</TableCell>
+                <TableCell>{order?.createdAt}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Container>
+  );
+};
 
-//   const handleSaveChanges = () => {
-//     if (selectedOrder) {
-//       editOrder(selectedOrder._id, {
-//         onSuccess: () => {
-//           refetch();
-//           setModalOpen(false);
-//         },
-//       });
-//     }
-//   };
-
-//   return (
-//     <Container>
-//       <TableContainer component={Paper}>
-//         <Table>
-//           <TableHead>
-//             <TableRow>
-//               <TableCell>شناسه سفارش</TableCell>
-//               <TableCell>محصولات</TableCell>
-//               <TableCell>عملیات</TableCell>
-//             </TableRow>
-//           </TableHead>
-//           <TableBody>
-//             {orders?.data?.order?.map((order: OrderType) => (
-//               <TableRow key={order._id}>
-//                 <TableCell>ORD-{order?.user._id}</TableCell>
-//                 <TableCell>
-//                   {order?.products?.map((product) => (
-//                     <Box key={product._id} display="flex" gap={1}>
-//                       {product.product.images &&
-//                       product.product.images.length > 0 ? (
-//                         <img
-//                           src={`http://${product.product.images[0]}`}
-//                           alt={product.product.name}
-//                           width="50"
-//                         />
-//                       ) : (
-//                         <Typography>No Image</Typography>
-//                       )}
-//                     </Box>
-//                   ))}
-//                 </TableCell>
-//                 <TableCell>
-//                   <Button
-//                     variant="contained"
-//                     color="primary"
-//                     size="small"
-//                     onClick={() => handleEditClick(order)}
-//                     sx={{ mr: 1 }}
-//                   >
-//                     ویرایش
-//                   </Button>
-//                   <Button
-//                     variant="contained"
-//                     color="error"
-//                     size="small"
-//                     onClick={() => handleDeliverOrder(order._id)}
-//                   >
-//                     تحویل به مشتری
-//                   </Button>
-//                 </TableCell>
-//               </TableRow>
-//             ))}
-//           </TableBody>
-//         </Table>
-//       </TableContainer>
-//     </Container>
-//   );
-// };
-
-// export default Orders;
+export default Orders;

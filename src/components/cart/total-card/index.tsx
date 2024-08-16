@@ -1,4 +1,4 @@
-import React from 'react';
+import { cardLocalization } from '@/constants/localization';
 import {
   Box,
   Button,
@@ -33,45 +33,45 @@ const TotalCard = ({ totalPrice }: { totalPrice: number }) => {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           <TextField
             variant="outlined"
-            label="کد تخفیف را وارد کنید"
+            label={cardLocalization.discountCode}
             size="small"
           />
-          <Button variant="contained">ثبت</Button>
+          <Button variant="contained">{cardLocalization.registration}</Button>
         </Box>
         <Divider sx={{ bgcolor: grey[300], mt: '14px' }} />
       </CardContent>
       <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography variant="body2" sx={{ fontSize: '20px', color: 'black' }}>
-            قیمت کل
+            {cardLocalization.totalPrice}{' '}
           </Typography>
           <Typography
             variant="body2"
             sx={{ fontSize: '20px', color: 'black', fontWeight: '900' }}
           >
-            {totalPrice?.toLocaleString('fa')} تومان
+            {totalPrice?.toLocaleString()} {cardLocalization.toman}
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography variant="body2" sx={{ fontSize: '20px', color: 'black' }}>
-            تخفیف :
+            {cardLocalization.discount}
           </Typography>
           <Typography
             variant="body2"
             sx={{ fontSize: '20px', color: 'black', fontWeight: '900' }}
           >
-            {(0).toLocaleString('fa')} تومان
+            {(0).toLocaleString()} {cardLocalization.toman}
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography variant="body2" sx={{ fontSize: '20px', color: 'black' }}>
-            مبلغ قابل پرداخت :
+            {cardLocalization.amountPayable}{' '}
           </Typography>
           <Typography
             variant="body2"
             sx={{ fontSize: '20px', color: 'black', fontWeight: '900' }}
           >
-            {totalPrice?.toLocaleString('fa')} تومان
+            {totalPrice?.toLocaleString()} {cardLocalization.toman}
           </Typography>
         </Box>
       </CardContent>
@@ -81,7 +81,7 @@ const TotalCard = ({ totalPrice }: { totalPrice: number }) => {
           sx={{ width: '100%', fontSize: '18px', fontWeight: '900' }}
           onClick={handleTocheckout}
         >
-          نهایی کردن خرید
+          {cardLocalization.finalizeThePurchase}
         </Button>
       </CardActions>
     </Card>

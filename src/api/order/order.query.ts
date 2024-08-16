@@ -4,7 +4,6 @@ import {
   editOrderById,
   getAllOrders,
   getOrdersById,
-  removeOrderById,
 } from './order.api';
 
 export const useGetAllOrders = () => {
@@ -33,12 +32,5 @@ export const useEditOrderById = () => {
   return useMutation({
     mutationKey: ['editOrders'],
     mutationFn: (id: string) => editOrderById(id),
-  });
-};
-
-export const useRemoveOrderById = () => {
-  return useMutation({
-    mutationKey: ['editOrders'],
-    mutationFn: (id: string) => removeOrderById(id),
   });
 };
